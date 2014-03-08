@@ -28,12 +28,7 @@ In the future, the thought is that you will be able to just drag and drop files 
 Thanks
 ----------------
 
-- d3.js
-- bootstrap
-- backbone.js
-- [Backbone-forms](https://github.com/powmedia/backbone-forms)
-- mustache.js
-- heroku
-- tornado
-- mongodb
+- [d3.js](http://d3js.org/)
+- [tornado](http://www.tornadoweb.org/en/stable/)
+- [mongodb](http://www.mongodb.org/)
 - [@rmcgibbo](https://github.com/rmcgibbo)
