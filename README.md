@@ -3,6 +3,8 @@ MSMExplorer-d3.js
 
 A d3-based webapp that allows for analysis and interactive visualizations of transition state pathways (TPTs).
 
+![MSMExplorer](https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png)
+
 Before You Begin
 ----------------
 Before using MSMExplorer-d3.js, you will need to install MongoDb, pymongo, tornado, Heroku, and their respective requirements. MSMBuilder and NetworkX will eventually be needed to generate the graphs, but for now as long as you have a JSON formatted file with directed graph data this web application should work just fine.
