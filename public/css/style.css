@@ -1,0 +1,275 @@
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+
+
+/*----------------------------
+    The file upload form
+-----------------------------*/
+
+
+#upload{
+    font-family:'PT Sans Narrow', sans-serif;
+    background-color:none;
+
+    width:250px;
+    padding:40px;
+    border-radius:3px;
+    margin:25px auto 100px;
+}
+
+#drop{
+    background-color: none;
+    padding: 40px 50px;
+    margin-bottom: 5px;
+    border: 10px dashed #ccc;
+    border-radius: 3px;
+    text-align: center;
+    text-transform: uppercase;
+
+    font-size:16px;
+    font-weight:bold;
+    color:#7f858a;
+}
+
+#drop a{
+    background-color:#0088cc;
+    padding:12px 26px;
+    color:#fff;
+    font-size:14px;
+    border-radius:2px;
+    cursor:pointer;
+    display:inline-block;
+    margin-top:12px;
+    line-height:1;
+}
+
+#drop a:hover{
+    background-color:#0986a3;
+}
+
+#drop input{
+    display:none;
+}
+
+#upload ul{
+    list-style:none;
+    margin:0 -30px;
+}
+
+#upload ul li{
+
+    background-color:none;
+    padding:15px;
+    height: 52px;
+
+    position: relative;
+}
+
+#upload ul li input{
+    display: none;
+}
+
+#upload ul li p{
+    width: 144px;
+    overflow: hidden;
+    white-space: nowrap;
+    color:#7f858a;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+}
+
+#upload ul li i{
+    font-weight: normal;
+    font-style:normal;
+    color:#7f7f7f;
+    display:block;
+}
+
+#upload ul li canvas{
+    top: 15px;
+    left: 32px;
+    position: absolute;
+}
+
+#upload ul li span{
+    width: 15px;
+    height: 12px;
+    background: url('../assets/img/icons.png') no-repeat;
+    position: absolute;
+    top: 34px;
+    right: 33px;
+    cursor:pointer;
+}
+
+#upload ul li.working span{
+    height: 16px;
+    background-position: 0 -12px;
+}
+
+#upload ul li.error p{
+    color:red;
+}
+
+#drop-outer {
+    padding:10px;
+    border:1px solid #ccc;
+}
+#drop-zone{
+    border:2px dashed #bbb;
+    border-radius:5px;
+    padding:25px;
+    text-align:center;
+    font: 20pt bold 'Vollkorn';
+    color:#bbb
+}
+
+.bbf-checkboxes label {
+  float: left;
+  padding-left: 1em;
+  white-space: nowrap;
+}
+.bbf-checkboxes input {
+  float: left;
+}
+ul.bbf-checkboxes {
+  width: 150px;
+  margin-left: 10px;
+  float: left;
+}
+
+label.control-label {
+  float: left;
+}
+
+.bbf-checkboxes li {
+  list-style-type: none;
+  clear: both;
+}
+
+svg {
+	height:100%;
+	width:100%;
+	padding:0px;
+	margin: 0em 0em 0em 0em;
+}
+
+pre {
+	padding:0em;
+}
+
+/* make sure that the input forms dont go any wider
+   than their box*/
+input {
+  max-width: 150px;
+}
+select {
+  max-width: 165px;
+}
+
+.stderr {
+    color: #BA1919; /* dark red */
+}
+
+/* adjust the width of the input forms*/
+.form-horizontal .control-label {
+  width: 100px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.form-horizontal .controls {
+  margin-left: 150px;
+  width: 100px;
+}
+
+/* decrease the spacing between elements*/
+.form-horizontal .control-group {
+  margin-bottom: -5px; /*adjust to your liking*/
+}
+/* but makee sure to add more space when
+   there is an error*/
+.form-horizontal .control-group.error {
+  margin-bottom: inherit;
+}
+
+a.sidebar-label {
+  color: #000000;
+  text-decoration: none;
+}
+
+.help-inline {
+  white-space: nowrap;
+}
+
+/* sticky footer */
+/* thanks to http://ryanfait.com/sticky-footer/layout.css */
+
+.clear-for-footer {
+  min-height: 60px;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  overflow: auto;
+  margin: 0 auto -60px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push {
+  position: relative;
+  clear: both;
+  width: 100%;
+  height: 60px; /* .push must be the same height as .footer */
+  background-color: #f5f5f5;
+}
+
+.footer .credit {
+  padding-top: 20px;
+}
+
+.link {
+  fill: none;
+  stroke: #666;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+.circle {
+  fill: none;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+.circle.source {
+	fill: #0088cc;
+}
+
+.circle.sink {
+	fill: red;
+}
+
+.circle.none {
+	fill: #ccc;
+}
+
+text {
+  font: 12px sans-serif;
+  pointer-events: none;
+}
+
+text.id {
+  text-anchor: middle;
+  font-weight: bold;
+}
