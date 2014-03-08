@@ -14,7 +14,7 @@ Just enter the following into your terminal (while in the ``msmexplorer-d3`` tra
 
 ````
 $> mongod &
-$> ./server.py -p 8000
+$> ./app.py -p 8000
 ````
 
 Now you can fire up your favorite javascript-enabled browser and go to ``localhost:8000`` to see the app in action.
