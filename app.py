@@ -8,6 +8,7 @@ from tornado.websocket import WebSocketHandler
 from tornado.httpclient import AsyncHTTPClient
  
 __UPLOADS__ = "./public/uploads/"
+__DB__ = 'MONGOLAB_URI'
 
 HTTP_CLIENT = AsyncHTTPClient()
 def urldecode(s):
@@ -15,12 +16,12 @@ def urldecode(s):
 
 def connect_to_mongo():
     db = None
-    if 'MONGOHQ_URL' in os.environ:
-        print os.environ['MONGOHQ_URL']
-        c = Connection(os.environ['MONGOHQ_URL'])
+    if __DB__ in os.environ:
+        print os.environ[__DB__]
+        c = Connection(os.environ[__DB__])
         db = c[urlparse(MONGO_URL).path[1:]]
     else:
-        print "if youre developing locally, you need to get the MONGOHQ_URL"
+        print "if youre developing locally, you need to get the MONGOLAB_URI"
         print 'env variable. run "heroku config" at the command line and'
         print 'it should give you the right string'
         c = Connection()
