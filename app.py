@@ -14,14 +14,18 @@ def urldecode(s):
     return dict(urlparse.parse_qsl(s))
 
 def connect_to_mongo():
+    db = None
     if 'MONGOHQ_URL' in os.environ:
         c = Connection(os.environ['MONGOHQ_URL'])
+        db = conn[urlparse(MONGO_URL).path[1:]]
     else:
-        print "if youre developing locally, you ned to get the MONGOHQ_URL"
+        print "if youre developing locally, you need to get the MONGOHQ_URL"
         print 'env variable. run "heroku config" at the command line and'
         print 'it should give you the right string'
         c = Connection()
-    return c.app14240963
+        db = c.app14240963
+    return db
+    
 DATABASE = connect_to_mongo()
 print DATABASE.collection_names()
 
