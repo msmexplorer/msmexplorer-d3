@@ -1,1 +1,1 @@
-web: gunicorn -k tornado --workers=4 --bind=0.0.0.0:$PORT app -p $PORT
+web: gunicorn -k tornado --workers=4 --bind=0.0.0.0:$PORT app

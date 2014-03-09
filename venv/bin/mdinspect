@@ -1,0 +1,10 @@
+#!/Users/cu3alibre/msmexplorer-d3/venv/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'mdtraj==0.7.0','console_scripts','mdinspect'
+__requires__ = 'mdtraj==0.7.0'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('mdtraj==0.7.0', 'console_scripts', 'mdinspect')()
+    )

@@ -1,5 +1,3 @@
-#!/Users/cu3alibre/anaconda/bin/python
-
 import os, optparse, uuid, urlparse, time
 from threading import Lock
 from urllib import urlencode
@@ -29,7 +27,7 @@ print DATABASE.collection_names()
 
 def parse_cmdln():
     parser=optparse.OptionParser()
-    parser.add_option('-p','--port',dest='port',type='int', default=8000)
+    parser.add_option('-p','--port',dest='port',type='int', default=5000)
     (options, args) = parser.parse_args()
     return (options, args)
 
@@ -100,6 +98,7 @@ class UploadHandler(tornado.web.RequestHandler):
         fname = fileinfo['filename']
         extn = os.path.splitext(fname)[1]
         cname = str(uuid.uuid4()) + extn
+        print "Uploading %s to %s" % (cname,__UPLOADS__)
         fh = open(__UPLOADS__ + cname, 'w')
         fh.write(fileinfo['body'])
         self.finish(cname + " has uploaded. Check %s folder" %__UPLOADS__)
