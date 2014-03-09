@@ -1,5 +1,5 @@
 gunicorn==18.0
-simplejson==2.2.1
+simplejson==3.3.3
 tornado==3.2
 wsgiref==0.1.2
-pymongo==2.5
+pymongo==2.6.3
