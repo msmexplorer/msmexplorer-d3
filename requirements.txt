@@ -1,13 +1,11 @@
 --allow-all-external
 --allow-unverified PIL
---allow-unverified Pmw
 BeautifulSoup==3.2.1
 Flask==0.10.1
 Jinja2==2.7.2
 MarkupSafe==0.19
 PIL==1.1.7
 Pillow==2.3.0
-Pmw==1.3.3
 Werkzeug==0.9.4
 backports.ssl-match-hostname==3.4.0.2
 beautifulsoup4==4.3.2
