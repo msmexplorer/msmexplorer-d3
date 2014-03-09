@@ -17,7 +17,7 @@ def connect_to_mongo():
     db = None
     if 'MONGOHQ_URL' in os.environ:
         c = Connection(os.environ['MONGOHQ_URL'])
-        db = conn[urlparse(MONGO_URL).path[1:]]
+        db = c[urlparse(MONGO_URL).path[1:]]
     else:
         print "if youre developing locally, you need to get the MONGOHQ_URL"
         print 'env variable. run "heroku config" at the command line and'
