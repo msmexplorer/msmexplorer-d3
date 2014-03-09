@@ -16,6 +16,7 @@ def urldecode(s):
 def connect_to_mongo():
     db = None
     if 'MONGOHQ_URL' in os.environ:
+        print os.environ['MONGOHQ_URL']
         c = Connection(os.environ['MONGOHQ_URL'])
         db = c[urlparse(MONGO_URL).path[1:]]
     else:
