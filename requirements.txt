@@ -1,8 +1,5 @@
---allow-all-external
-BeautifulSoup==3.2.1
-Flask==0.10.1
-Jinja2==2.7.2
-gunicorn==18.0
-pymongo==2.6.3
-tornado==3.2
+gunicorn==0.13.2
+simplejson==2.2.1
+tornado==2.2
 wsgiref==0.1.2
+pymongo==2.5
