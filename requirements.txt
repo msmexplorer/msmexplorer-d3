@@ -1,5 +1,6 @@
 --allow-all-external
 --allow-unverified PIL
+--allow-unverified Pmw
 BeautifulSoup==3.2.1
 Flask==0.10.1
 Jinja2==2.7.2
