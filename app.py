@@ -8,7 +8,7 @@ from tornado.websocket import WebSocketHandler
 from tornado.httpclient import AsyncHTTPClient
  
 __UPLOADS__ = "./public/uploads/"
-__DB__ = 'MONGOLAB_URI'
+__DB__ = 'MONGOHQ_URL'
 
 HTTP_CLIENT = AsyncHTTPClient()
 def urldecode(s):
