@@ -1,8 +1,6 @@
 var circle, path, text;
 
-var fluxnorm = 0;
-
-var width = 900,
+var	width = 900,
     height = 520;
 
 var force = d3.layout.force()
@@ -10,12 +8,14 @@ var force = d3.layout.force()
 	    .gravity(0.05)
 	    .linkDistance(20)
 	    .size([width, height]);
-
+		
 var svg = d3.select("#tpt").append("svg")
       .attr("width", width)
       .attr("height", height)
 	  .attr("viewBox", "0 0 " + width + " " + height)
-      .attr("preserveAspectRatio", "XminYmin meet");
+      .attr("preserveAspectRatio", "XminYmin meet");		
+
+var init = updateData();
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
@@ -31,11 +31,9 @@ svg.append("defs").selectAll("marker")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
-
-
 // Use elliptical arc path segments to doubly-encode directionality.
 force.on('tick', function() {
-  
+
   path.attr("d", linkArc);
   circle.attr("transform", transform);
   text.attr("transform", transform);
@@ -54,38 +52,45 @@ function transform(d) {
   return "translate(" + d.x + "," + d.y + ")";
 }
 
-d3.json('./uploads/tpt.json', function(err, data) {
-
-	data.links.forEach(function(l) {
-	  l.source = data.nodes[l.source] || (data.nodes[l.source] = {name: l.source});
-	  l.target = data.nodes[l.target] || (data.nodes[l.target] = {name: l.target});
-	  fluxnorm+=Math.pow(l.weight,2)
-	});
+function updateData(){
 	
-	path = svg.append("g").selectAll("path")
-	    .data(data.links)
-	  .enter().append("path")
-	    .attr("class", function(d) { return "link " + "suit"; })
-		.attr("marker-end", function(d) { return "url(#" + "suit" + ")"; })
-		.attr("stroke-width", function(d) { return 3*Math.exp((d.weight/Math.sqrt(fluxnorm)-1)) + "px"; });
+	d3.selectAll("svg > g").data([]).exit().remove();
+	
+	var fluxnorm = 0;
 
-	circle = svg.append("g").selectAll("circle")
-	    .data(data.nodes)
-	  .enter().append("circle")
-	    .attr("r", 12)
-		.attr("class", function(d) { return "circle " + d.type; })
-	    .call(force.drag);
+	d3.json('./uploads/tpt.json', function(err, data) {
 
-	text = svg.append("g").selectAll("text")
-	    .data(data.nodes)
-	  .enter().append("text")
-	    .attr("x", 0)
-	    .attr("y", 4)
-		.attr("class","id")
-	    .text(function(d) { return d.id; });
+		data.links.forEach(function(l) {
+		  l.source = data.nodes[l.source] || (data.nodes[l.source] = {name: l.source});
+		  l.target = data.nodes[l.target] || (data.nodes[l.target] = {name: l.target});
+		  fluxnorm+=Math.pow(l.weight,2)
+		});
 
-    force
-        .nodes( data.nodes )
-        .links( data.links )
-        .start();
-});
+		path = svg.append("g").selectAll("path")
+		    .data(data.links)
+		  .enter().append("path")
+		    .attr("class", function(d) { return "link " + "suit"; })
+			.attr("marker-end", function(d) { return "url(#" + "suit" + ")"; })
+			.attr("stroke-width", function(d) { return 3*Math.exp((d.weight/Math.sqrt(fluxnorm)-1)) + "px"; });
+
+		circle = svg.append("g").selectAll("circle")
+		    .data(data.nodes)
+		  .enter().append("circle")
+		    .attr("r", 12)
+			.attr("class", function(d) { return "circle " + d.type; })
+		    .call(force.drag);
+
+		text = svg.append("g").selectAll("text")
+		    .data(data.nodes)
+		  .enter().append("text")
+		    .attr("x", 0)
+		    .attr("y", 4)
+			.attr("class","id")
+		    .text(function(d) { return d.id; });
+
+	    force
+	        .nodes( data.nodes )
+	        .links( data.links )
+	        .start();
+	});
+}

@@ -96,14 +96,17 @@ class IndexHandler(StaticFileHandler):
         return super(IndexHandler, self).get('index.html')
  
 class UploadHandler(tornado.web.RequestHandler):
+        
     def post(self):
         fileinfo = self.request.files['filearg'][0]
         fname = fileinfo['filename']
         extn = os.path.splitext(fname)[1]
-        cname = str(uuid.uuid4()) + extn
-        print "Uploading %s to %s" % (cname,__UPLOADS__)
-        fh = open(__UPLOADS__ + cname, 'w')
-        fh.write(fileinfo['body'])
+        cname = 'tpt'
+        if 'json' in extn:
+        # cname = str(uuid.uuid4())+ extn
+            print "Uploading %s to %s" % (cname,__UPLOADS__)
+            fh = open(__UPLOADS__ + cname, 'w')
+            fh.write(fileinfo['body'])
         self.finish(cname + " has uploaded. Check %s folder" %__UPLOADS__)
  
  
