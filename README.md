@@ -25,12 +25,22 @@ Use for Analysis
 ----------------
 At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in ``public/gen_json_graph.ipynb``.
 
-In the future, the thought is that you will be able to just drag and drop files (JSON,csv,mtx,etc) into the webapp, and have the graph visualization dynamically update. You will also be able to add a metric to stratify the pathways for more meaningful analysis.
+Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the graph visualization dynamically update. 
 
-Thanks
+Todo
+---------------
+
+In the future, I hope to provide additional functionalities:
+
++ Upload a metric to stratify the pathways for more meaningful analysis.
++ Upload transition matrix, sources, and sinks on the the fly and get a network,
++ Visualize whole MSM networks
+
+Shoutouts
 ----------------
 
 - [d3.js](http://d3js.org/)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
+- [jquery-file-upload](https://github.com/blueimp/jQuery-File-Upload)
 - [@rmcgibbo](https://github.com/rmcgibbo)
