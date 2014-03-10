@@ -1,4 +1,4 @@
-MSMExplorer-d3.js
+MSMExplorer-d3
 =================
 
 A d3.js-based webapp that allows for analysis and interactive visualizations of transition state pathways (TPTs).
