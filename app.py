@@ -101,7 +101,7 @@ class UploadHandler(tornado.web.RequestHandler):
         fileinfo = self.request.files['filearg'][0]
         fname = fileinfo['filename']
         extn = os.path.splitext(fname)[1]
-        cname = 'tpt'
+        cname = 'tpt.json'
         if 'json' in extn:
         # cname = str(uuid.uuid4())+ extn
             print "Uploading %s to %s" % (cname,__UPLOADS__)
