@@ -118,6 +118,7 @@ application = tornado.web.Application([
         (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),
         (r'/assets/(.*)', StaticFileHandler, {'path': 'public/assets'}),
         (r'/uploads/(.*)', StaticFileHandler, {'path': 'public/uploads'}),
+        (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
         ], debug=True)
  
  
