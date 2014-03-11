@@ -20,7 +20,7 @@
     <header>
       <div class="inner">
         <h1>MSMExplorer-d3</h1>
-        <h2>A d3.js extension to MSMBuilder that allows for analysis and interactive visualizations of transition state pathways.</h2>
+        <h2>A d3.js-based webtool for analysis and interactive visualization of transition state pathways.</h2>
         <a href="https://github.com/cxhernandez/msmexplorer-d3" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
@@ -31,7 +31,7 @@
           <h1>
 <a name="msmexplorer-d3" class="anchor" href="#msmexplorer-d3"><span class="octicon octicon-link"></span></a>MSMExplorer-d3</h1>
 
-<p>A d3.js-based webapp that allows for analysis and interactive visualizations of transition state pathways (TPTs).</p>
+<p>A d3.js-based webapp powered by tornado that allows for analysis and interactive visualizations of transition state pathways (TPTs).</p>
 
 <p><img src="https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png" alt="MSMExplorer"></p>
 
@@ -47,7 +47,7 @@
 <p>Just enter the following into your terminal (while in the <code>msmexplorer-d3</code> trajectory):</p>
 
 <pre><code>$&gt; mongod &amp;
-$&gt; ./app.py -p 8000
+$&gt; python app.py -p 8000
 </code></pre>
 
 <p>Now you can fire up your favorite javascript-enabled browser and go to <code>localhost:8000</code> to see the app in action.</p>
@@ -55,7 +55,7 @@ $&gt; ./app.py -p 8000
 <h2>
 <a name="use-for-analysis" class="anchor" href="#use-for-analysis"><span class="octicon octicon-link"></span></a>Use for Analysis</h2>
 
-<p>At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in <code>public/gen_json_graph.ipynb</code>.</p>
+<p>At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in <a href="http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb"><code>public/gen_json_graph.ipynb</code></a>.</p>
 
 <p>Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the graph visualization dynamically update. </p>
 
