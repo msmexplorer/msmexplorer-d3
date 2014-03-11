@@ -1,7 +1,7 @@
 MSMExplorer-d3
 =================
 
-A d3.js-based webapp that allows for analysis and interactive visualizations of transition state pathways (TPTs).
+A d3.js-based webapp powered by tornado that allows for analysis and interactive visualizations of transition state pathways (TPTs).
 
 ![MSMExplorer](https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png)
 
@@ -16,14 +16,14 @@ Just enter the following into your terminal (while in the ``msmexplorer-d3`` tra
 
 ````
 $> mongod &
-$> ./app.py -p 8000
+$> python app.py -p 8000
 ````
 
 Now you can fire up your favorite javascript-enabled browser and go to ``localhost:8000`` to see the app in action.
 
 Use for Analysis
 ----------------
-At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in ``public/gen_json_graph.ipynb``.
+At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in [``public/gen_json_graph.ipynb``](http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb).
 
 Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the graph visualization dynamically update. 
 
