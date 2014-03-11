@@ -1,7 +1,7 @@
 MSMExplorer-d3
 =================
 
-A d3.js-based webapp powered by tornado that allows for analysis and interactive visualizations of transition state pathways (TPTs).
+A d3.js-based webapp powered by tornado that allows for analysis and interactive visualizations of transition state pathways (TPs).
 
 ![MSMExplorer](https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png)
 
