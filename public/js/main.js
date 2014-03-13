@@ -7,7 +7,7 @@ $(function () {
   });
   
   Backbone.Form.setTemplates({
-      customTemplate: '<div>{{fieldsets}}<label id="drop"><a>Upload</a><input type="file" id="upload" onchange="handleInput()" multiple/></label><output id="list"></output></div>'
+      customTemplate: '<div>{{fieldsets}}<label id="drop"><a>upload</a><input type="file" id="upload" onchange="handleInput()" multiple/></label><output id="list"></output></div>'
   });
   
   Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
