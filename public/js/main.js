@@ -1,6 +1,3 @@
-var myview;
-
-
 $(function () {
   // pull down the helptext for each of the options.
   $.ajax('help/help.html', {
@@ -9,15 +6,20 @@ $(function () {
         }
   });
   
+  Backbone.Form.setTemplates({
+      customTemplate: '<div>{{fieldsets}}<label id="drop"><a>Upload</a><input type="file" id="upload" onchange="handleInput()" multiple/></label><output id="list"></output></div>'
+  });
+  
   Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
   //Backbone.Form.helpers.keyToTitle = function (key) {return key};
 
-  var ModelsClasses = [Input];
+  var ModelsClasses = [TP, MSM];
   var collection = new Collection([]);
 
   for (var i in ModelsClasses) {
       model = new ModelsClasses[i]();
       var form = new Backbone.Form({
+		  template: 'customTemplate',
           idPrefix: key + '-',
           model : model,
       }).render();
@@ -29,17 +31,13 @@ $(function () {
           // run the visibility functions to toggle
           // the show/hide of the form elements
           var attrs = form.model.attributes;
-          for (key in form.model.visibility) {
-            var visible = form.model.visibility[key](attrs);
-            //console.log(form.fields);
-
-            if (visible) {
-              form.fields[key].$el.fadeTo(200, 1);
-            } else {
-              form.fields[key].$el.fadeTo(200, 0.2);
-            }
-          }
+          
       });
+	  
+	  //File Upload stuff
+	  //var fileInput = $('#upload');
+
+	  //fileInput.on('change', handleFileSelect(evt));
 
       //add the form to the dom, and to our collection
       $(model.el).append(form.el);
@@ -73,11 +71,6 @@ $(function () {
      // using the popover
      $(form.el).find('.help-block').remove();
   }
-
-  // instantiate a view on the collection of models
-  myview = new OpenMMScriptView({
-    collection: collection,
-  });
 
 });
 
@@ -113,17 +106,6 @@ $(function () {
     var rawcode = $('#code').text();
     var b64code = Base64.encode(rawcode)
     script_input.attr('type', 'hidden').attr('value', b64code).appendTo(form);
-
-    error = myview.sanitycheck();
-    if (error) {
-        bootbox.confirm(error + "<br/><br/> Are you sure you want to save this script?", function(result) {
-            if (result) {
-                form.submit();
-            }
-        }); 
-    } else {
-        form.submit();
-    }
 
     // reset it, if we messed w/ the form
     if (set_value_from_placeholder) {

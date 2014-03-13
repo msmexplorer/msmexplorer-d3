@@ -12,9 +12,19 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 	
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+
+	
 	<link href="css/style.css" rel="stylesheet">
 	<script src="js/d3.v3.min.js"></script>
 	
+    <script src="js/libs/mousetrap.min.js"></script>
+    <script src="js/lib.min.js"></script>
+	
+	<script src="js/validators.js"></script>
+	<script src="js/models.js"></script>
+	<script src="js/main.js"></script>		
 	<!-- Google Analytics -->
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -42,7 +52,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Get Help</a>
             <ul class="dropdown-menu">
-			  <li><a href="http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb" target="_blank">MSMExplorer-d3 Tutorial»</a></li>
+			  <li><a href="http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb" target="_blank">MSMExplorer-d3 Tutorial »</a></li>
               <li><a href="http://cxhernandez.github.io/msmexplorer-d3/" target="_blank">Github Project Description »</a></li>
             </ul>
         </ul>
@@ -53,36 +63,30 @@
 <!--  End NavBar-->
 
 
+<!-- Two column layout -->
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span4">
       <ul id="sidebar-tab" class="nav nav-pills nav-tabs">
-        <li class="active"><a href="#input">Input</a></li>
+        <li class="active"><a href="#input">Transition Paths</a></li>
+        <!--li><a href="#system">Markov States</a></li-->
       </ul>
       <!--Sidebar content-->
       <div class="tab-content">
-	        <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
-	            <div id="drop">
-	                Feed Me A JSON FILE
-	                <a>Upload</a>
-	                <input type="file" name="filearg" id="input" onchange="updateData();"/>
-	            </div>
-	            <ul>
-	                <!-- The file uploads will be shown here -->
-	            </ul>
-
-	        </form>
+        <div class="tab-pane fade in active" id="tp"><div id="sidepane-tp">
+        </div>
+	  </div>
+        <div class="tab-pane fade in" id="msm"><div id="sidepane-msm"></div></div>
       </div>
       
     </div>
     <div class="span8">
       <!--Body content-->
-	  <pre id="tpt">
-		  <script src="js/tptview.js"></script>
-	  </pre>
+      <div><pre id="tpt"></pre></div>
     </div>
- </div>
-</div> <!-- wrapper -->
+  </div>
+<div class="span12 clear-for-footer"></div>
+</div>
 
 <div class="wrap footer">
     <div class="span2"></div>
@@ -96,14 +100,7 @@
     </div>
     </div>
 </div>
-
-
-<script src="assets/js/jquery.knob.js"></script>
-
-<script src="assets/js/jquery.ui.widget.js"></script>
-<script src="assets/js/jquery.iframe-transport.js"></script>
-<script src="assets/js/jquery.fileupload.js"></script>
-
-<script src="assets/js/script.js"></script>
+<script src="js/filedrop.js"></script>
+<script src="js/view.js"></script>
 </body>
 </html>

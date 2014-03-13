@@ -1,7 +1,7 @@
-var circle, path, text;
+var circle, path, text, myjson;
 
 var	width = 900,
-    height = 520;
+    height = 550;
 
 var force = d3.layout.force()
 	    .charge(-1500)
@@ -14,8 +14,6 @@ var svg = d3.select("#tpt").append("svg")
       .attr("height", height)
 	  .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "XminYmin meet");		
-
-var init = updateData();
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
@@ -52,13 +50,10 @@ function transform(d) {
   return "translate(" + d.x + "," + d.y + ")";
 }
 
-function updateData(){
-	
-	d3.selectAll("svg > g").data([]).exit().remove();
+
+function createGraph(data){
 	
 	var fluxnorm = 0;
-
-	d3.json('./uploads/tpt.json', function(err, data) {
 
 		data.links.forEach(function(l) {
 		  l.source = data.nodes[l.source] || (data.nodes[l.source] = {name: l.source});
@@ -92,5 +87,12 @@ function updateData(){
 	        .nodes( data.nodes )
 	        .links( data.links )
 	        .start();
-	});
+	
+}
+
+function updateGraph(data){
+	
+	$("g").remove();
+	createGraph(data);
+	
 }

@@ -97,30 +97,31 @@ class IndexHandler(StaticFileHandler):
         session.put('indexcounts', session.get('indexcounts', 0) + 1)
         return super(IndexHandler, self).get('index.html')
  
-class UploadHandler(tornado.web.RequestHandler):
-        
-    def post(self):
-        fileinfo = self.request.files['filearg'][0]
-        fname = fileinfo['filename']
-        extn = os.path.splitext(fname)[1]
-        cname = 'tpt.json'
-        if 'json' in extn:
-        # cname = str(uuid.uuid4())+ extn
-            print "Uploading %s to %s" % (cname,__UPLOADS__)
-            fh = open(__UPLOADS__ + extn, 'w')
-            fh.write(fileinfo['body'])
-        self.finish(cname + " has uploaded. Check %s folder" %__UPLOADS__)
+# class UploadHandler(tornado.web.RequestHandler):
+#         
+#     def post(self):
+#         fileinfo = self.request.files['filearg'][0]
+#         fname = fileinfo['filename']
+#         extn = os.path.splitext(fname)[1]
+#         cname = 'tpt.json'
+#         if 'json' in extn:
+#         # cname = str(uuid.uuid4())+ extn
+#             print "Uploading %s to %s" % (cname,__UPLOADS__)
+#             fh = open(__UPLOADS__ + extn, 'w')
+#             fh.write(fileinfo['body'])
+#         self.finish(cname + " has uploaded. Check %s folder" %__UPLOADS__)
  
  
 application = tornado.web.Application([
         (r'/run', RunHandler),
-        (r"/upload", UploadHandler),
+        # (r"/upload", UploadHandler),
         (r'/', IndexHandler, {'path': 'public'}),
         (r'/js/(.*)', StaticFileHandler, {'path': 'public/js'}),
         (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),
-        (r'/assets/(.*)', StaticFileHandler, {'path': 'public/assets'}),
-        (r'/uploads/(.*)', StaticFileHandler, {'path': 'public/uploads'}),
+        (r'/assets/(.*)', StaticFileHandler, {'path': 'public/assets'}),        # 
+        # (r'/uploads/(.*)', StaticFileHandler, {'path': 'public/uploads'}),
         (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
+        (r'/help/(.*)', StaticFileHandler, {'path': 'public/help'}),
         ], debug=True)
  
  

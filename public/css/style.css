@@ -10,25 +10,29 @@ html, body {
     The file upload form
 -----------------------------*/
 
-
 #upload{
     font-family:'PT Sans Narrow', sans-serif;
     background-color:none;
+    width: auto;
+    margin:5px;
+}
 
-    width:250px;
-    padding:40px;
-    border-radius:3px;
-    margin:25px auto 100px;
+#list{
+	width:100%;
+	margin: 0 auto;
+	text-align: center;
 }
 
 #drop{
     background-color: none;
+	width: 150px;
     padding: 40px 50px;
-    margin-bottom: 5px;
+    margin: 10px auto 10px;
     border: 10px dashed #ccc;
     border-radius: 3px;
     text-align: center;
     text-transform: uppercase;
+	overflow: hidden;
 
     font-size:16px;
     font-weight:bold;
@@ -101,7 +105,6 @@ html, body {
 #upload ul li span{
     width: 15px;
     height: 12px;
-    background: url('../assets/img/icons.png') no-repeat;
     position: absolute;
     top: 34px;
     right: 33px;
@@ -145,6 +148,7 @@ ul.bbf-checkboxes {
 }
 
 label.control-label {
+  margin: 5px 50px 0px 5px;
   float: left;
 }
 
@@ -212,7 +216,7 @@ a.sidebar-label {
 /* thanks to http://ryanfait.com/sticky-footer/layout.css */
 
 .clear-for-footer {
-  min-height: 60px;
+  min-height: 10px;
 }
 
 .wrapper {
