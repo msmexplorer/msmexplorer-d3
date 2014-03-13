@@ -42,5 +42,4 @@ Shoutouts
 - [d3.js](http://d3js.org/)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
-- [jquery-file-upload](https://github.com/blueimp/jQuery-File-Upload)
 - [@rmcgibbo](https://github.com/rmcgibbo)
