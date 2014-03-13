@@ -23,9 +23,9 @@ Now you can fire up your favorite javascript-enabled browser and go to ``localho
 
 Use for Analysis
 ----------------
-At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPTs using the supplied iPython Notebook session in [``public/gen_json_graph.ipynb``](http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb).
+At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPs using the supplied iPython Notebook session in [``public/gen_json_graph.ipynb``](http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb).
 
-Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the graph visualization dynamically update. 
+Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the pathway visualization dynamically update. 
 
 Todo
 ---------------
