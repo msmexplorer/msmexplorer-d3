@@ -31,15 +31,14 @@ svg.append("defs").selectAll("marker")
 
 // Use elliptical arc path segments to doubly-encode directionality.
 force.on('tick', function() {
-
   path.attr("d", linkArc);
   circle.attr("transform", transform);
   text.attr("transform", transform);
 });
 
 function linkArc(d) {
-  var x = d.target.x-4,
-      y = d.target.y-4,
+  var x = d.target.x,
+      y = d.target.y,
       dx = x - d.source.x,
       dy = y - d.source.y,
       dr = Math.sqrt(dx * dx + dy * dy);
@@ -53,12 +52,12 @@ function transform(d) {
 
 function createGraph(data){
 	
-	var fluxnorm = 0;
+	var maxflux = 0;
 
 		data.links.forEach(function(l) {
 		  l.source = data.nodes[l.source] || (data.nodes[l.source] = {name: l.source});
 		  l.target = data.nodes[l.target] || (data.nodes[l.target] = {name: l.target});
-		  fluxnorm+=Math.pow(l.weight,2)
+		  if (l.weight > maxflux) {maxflux = l.weight;};
 		});
 
 		path = svg.append("g").selectAll("path")
@@ -66,7 +65,7 @@ function createGraph(data){
 		  .enter().append("path")
 		    .attr("class", function(d) { return "link " + "suit"; })
 			.attr("marker-end", function(d) { return "url(#" + "suit" + ")"; })
-			.attr("stroke-width", function(d) { return 3*Math.exp((d.weight/Math.sqrt(fluxnorm)-1)) + "px"; });
+			.attr("stroke-width", function(d) { return 3*Math.exp(d.weight/maxflux - 1) + "px"; });
 
 		circle = svg.append("g").selectAll("circle")
 		    .data(data.nodes)
