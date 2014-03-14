@@ -1,7 +1,8 @@
 var circle, path, text, rect;
 
 var	width = 900,
-    height = 550;
+    height = 550,
+	r = 12;
 
 var x = d3.scale.linear()
     .domain([0, width])
@@ -36,8 +37,8 @@ force.on('tick', function() {
 });
 
 function linkArc(d) {
-  var x = d.target.x,
-      y = d.target.y,
+  var x = (d.target.x),
+      y = (d.target.y),
       dx = x - d.source.x,
       dy = y - d.source.y,
       dr = Math.sqrt(dx * dx + dy * dy);
@@ -49,13 +50,12 @@ function transform(d) {
 }
 
 function redraw() {
-	   tx = d3.event.translate[0],
-	   ty = d3.event.translate[1];
-	   tx = Math.min(tx, 1.1*d3.event.scale*width);
-	   tx = Math.max(tx, -1.1*d3.event.scale*width);
-	   ty = Math.min(ty, 1.1*d3.event.scale*width);
-	   ty = Math.max(ty, -1.1*d3.event.scale*width);
-	console.log([tx,ty])
+   tx = d3.event.translate[0],
+   ty = d3.event.translate[1];
+   tx = Math.min(tx, 1.1*d3.event.scale*width);
+   tx = Math.max(tx, -1.1*d3.event.scale*width);
+   ty = Math.min(ty, 1.1*d3.event.scale*width);
+   ty = Math.max(ty, -1.1*d3.event.scale*width);
 	vis.attr("transform",
 	 "translate(" + [tx, ty] + ")"
 	 + " scale(" + d3.event.scale + ")");
@@ -88,7 +88,7 @@ function createGraph(data){
 		
 		data.nodes.forEach(function(n) {
 			if (n.pagerank != null) {
-				if (n.pagerank > maxpagerank) {maxpagerank = n.pangrank;};
+				if (n.pagerank > maxpagerank) {maxpagerank = n.pagerank;};
 			};
 		});
 		
@@ -102,7 +102,7 @@ function createGraph(data){
 		circle = vis.append("g:g").selectAll("circle")
 		    .data(data.nodes)
 		  .enter().append("circle")
-		    .attr("r", function(d) {if (d.pagerank != null) { return 20*d.pagerank/maxpagerank} return 12})
+		    .attr("r", function(d) {if (d.pagerank != null) { return 1.7*r*d.pagerank/maxpagerank} return r})
 			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type; } return "circle none"})
 		    .call(force.drag);
 
