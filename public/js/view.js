@@ -102,7 +102,7 @@ function createGraph(data){
 		circle = vis.append("g:g").selectAll("circle")
 		    .data(data.nodes)
 		  .enter().append("circle")
-		    .attr("r", function(d) {if (d.pagerank != null) { return 1.7*r*d.pagerank/maxpagerank} return r})
+		    .attr("r", function(d) {if (d.pagerank != null) { return Math.max(1.7*r*d.pagerank/maxpagerank,4)} return r})
 			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type; } return "circle none"})
 		    .call(force.drag);
 
