@@ -1,12 +1,14 @@
 newrelic==2.16.0.12
 gunicorn==18.0
 simplejson==3.3.3
+cython==0.18
+numexpr==2.2.2
+tables==3.1.0
+numpy==1.8.0
+scipy==0.13.3
 tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
-msmbuilder==2.8
 networkx==1.8.1
-numpy==1.8.0
-scipy==0.13.3
 mdtraj==0.8.0
-tables==3.1.0
+-e git://github.com/simtk/msmbuilder.git@b7f7f8eadcabb24ca7af7d8ad633c0060c318d48#egg=msmbuilder-master
