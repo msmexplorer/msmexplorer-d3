@@ -38,7 +38,7 @@
 <h2>
 <a name="before-you-begin" class="anchor" href="#before-you-begin"><span class="octicon octicon-link"></span></a>Before You Begin</h2>
 
-<p>Before using MSMExplorer-d3.js, you will need to install MongoDb, pymongo, tornado, Heroku, and their respective requirements. MSMBuilder and NetworkX will eventually be needed to generate the graphs, but for now as long as you have a JSON formatted file with directed graph data this web application should work just fine.</p>
+<p>Before using MSMExplorer-d3.js, you will need to install <code>mongodb</code>, <code>pymongo</code>, <code>tornado</code>, <code>heroku-toolbelt</code>, <code>msmbuilder</code>,<code>newrelic</code>, <code>networkx</code>, and their respective requirements.</p>
 
 <h2>
 <a name="starting-up-the-msmexplorer-d3-on-localhost" class="anchor" href="#starting-up-the-msmexplorer-d3-on-localhost"><span class="octicon octicon-link"></span></a>Starting up the MSMExplorer-d3 on <code>localhost</code>
@@ -47,17 +47,15 @@
 <p>Just enter the following into your terminal (while in the <code>msmexplorer-d3</code> trajectory):</p>
 
 <pre><code>$&gt; mongod &amp;
-$&gt; python app.py -p 8000
+$&gt; python app.py
 </code></pre>
 
-<p>Now you can fire up your favorite javascript-enabled browser and go to <code>localhost:8000</code> to see the app in action.</p>
+<p>Now you can fire up your favorite javascript-enabled browser and go to <code>localhost:5000</code> to see the app in action.</p>
 
 <h2>
 <a name="use-for-analysis" class="anchor" href="#use-for-analysis"><span class="octicon octicon-link"></span></a>Use for Analysis</h2>
 
-<p>At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPs using the supplied iPython Notebook session in <a href="http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb"><code>public/gen_json_graph.ipynb</code></a>.</p>
-
-<p>Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the pathway visualization dynamically update. </p>
+<p>Once you've built your MSM using MSMBuilder, you can just drag and drop <code>tProb.mtx</code> into the webapp, and start visualizing the graph immediately. You can also go to the <code>Transition Paths</code> tab to generate the N-most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds to process.</p>
 
 <h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h2>
@@ -66,17 +64,19 @@ $&gt; python app.py -p 8000
 
 <ul>
 <li>Upload a metric to stratify the pathways for more meaningful analysis.</li>
-<li>Upload transition matrix, sources, and sinks on the the fly and get a network,</li>
-<li>Visualize whole MSM networks</li>
+<li>Save results to a JSON file</li>
 </ul><h2>
 <a name="shoutouts" class="anchor" href="#shoutouts"><span class="octicon octicon-link"></span></a>Shoutouts</h2>
 
 <ul>
 <li><a href="http://d3js.org/">d3.js</a></li>
+<li><a href="http://backbonejs.org/">backbone.js</a></li>
+<li><a href="http://bootboxjs.com/">bootbox.js</a></li>
 <li><a href="http://www.tornadoweb.org/en/stable/">tornado</a></li>
 <li><a href="http://www.mongodb.org/">mongodb</a></li>
-<li><a href="https://github.com/blueimp/jQuery-File-Upload">jquery-file-upload</a></li>
+<li><a href="http://msmbuilder.org/">msmbuilder</a></li>
 <li><a href="https://github.com/rmcgibbo">@rmcgibbo</a></li>
+<li><a href="http://pande.stanford.edu/">Pande Group</a></li>
 </ul>
         </section>
 
