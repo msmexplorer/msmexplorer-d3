@@ -10,5 +10,5 @@ tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
 networkx==1.8.1
-mdtraj==0.8.0
+mdtraj==0.6.1
 -e git://github.com/simtk/msmbuilder.git@b7f7f8eadcabb24ca7af7d8ad633c0060c318d48#egg=msmbuilder-master
