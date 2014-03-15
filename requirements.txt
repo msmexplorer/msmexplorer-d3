@@ -5,7 +5,6 @@ numexpr==2.2.2
 numpy==1.8.0
 scipy==0.13.3
 cython==0.18
-tables==3.1.0
 tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
