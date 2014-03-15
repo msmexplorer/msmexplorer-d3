@@ -1,16 +1,24 @@
 import os, optparse, uuid, urlparse, time, tornado
+import scipy.io as sio
+import scipy.sparse as sparse
+import networkx as nx
+from networkx.readwrite import json_graph
+from msmbuilder import tpt
+from StringIO import StringIO
 from threading import Lock
 from urllib import urlencode
 from pymongo import Connection
+import newrelic.agent
 import tornado.ioloop
 from tornado.web import (RequestHandler, StaticFileHandler, Application,asynchronous)
 from tornado.websocket import WebSocketHandler
 from tornado.httpclient import AsyncHTTPClient
-import newrelic.agent
+
 
 newrelic.agent.initialize('newrelic.ini') 
 __UPLOADS__ = "./public/uploads/"
 __DB__ = 'MONGOHQ_URL'
+resize = {'1st eigenvector':-1,'2nd eigenvector':-2}
 
 HTTP_CLIENT = AsyncHTTPClient()
 def urldecode(s):
@@ -24,8 +32,28 @@ def connect_to_mongo():
         print 'env variable. run "heroku config" at the command line and'
         print 'it should give you the right string'
         c = Connection()
-        
     return c.app22870053
+    
+def make_json_graph(M,request):
+    c,e=float(request.get_argument('cutoff')),resize[str(request.get_argument('resize'))]
+    t = M.copy().multiply(M > c)
+    G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
+    r=dict(zip(range(M.shape[0]),map(abs,sparse.linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,e])))
+    nx.set_node_attributes(G,'size',r)
+    G.remove_nodes_from(nx.isolates(G))
+    return str(json_graph.dumps(G))
+    
+def make_json_paths(M,request):
+    sources,sinks,n = map(int,request.get_argument('sources').split(",")),map(int,request.get_argument('sinks').split(",")),int(request.get_argument('num_paths'))
+    paths = tpt.find_top_paths(sources,sinks,tprob=M,num_paths=n)
+    G = nx.DiGraph()
+    for j,i in enumerate(paths[0][::-1]):
+        G.add_node(i[0],type="source")
+        for k in range(1,len(i)):
+            G.add_node(i[k],type="none")
+            G.add_edge(i[k-1],i[k],weight=paths[2][::-1][j])
+        G.add_node(i[-1],type="sink")
+    return str(json_graph.dumps(G))
     
 DATABASE = connect_to_mongo()
 print DATABASE.collection_names()
@@ -97,10 +125,19 @@ class IndexHandler(StaticFileHandler):
         session.put('indexcounts', session.get('indexcounts', 0) + 1)
         return super(IndexHandler, self).get('index.html')
  
-# class UploadHandler(tornado.web.RequestHandler):
-#         
-#     def post(self):
-#         fileinfo = self.request.files['filearg'][0]
+class UploadHandler(tornado.web.RequestHandler):
+        
+    def post(self):
+        io = StringIO(self.get_argument('matrix'))
+        w = sio.mmread(io)
+        if bool(int(self.get_argument('mode'))):
+            self.write(make_json_paths(w,self))
+        else:
+            self.write(make_json_graph(w,self))
+        
+        
+        
+        # fileinfo = self.request.files['filearg'][0]
 #         fname = fileinfo['filename']
 #         extn = os.path.splitext(fname)[1]
 #         cname = 'tpt.json'
@@ -114,7 +151,7 @@ class IndexHandler(StaticFileHandler):
  
 application = tornado.web.Application([
         (r'/run', RunHandler),
-        # (r"/upload", UploadHandler),
+        (r"/process", UploadHandler),
         (r'/', IndexHandler, {'path': 'public'}),
         (r'/js/(.*)', StaticFileHandler, {'path': 'public/js'}),
         (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),

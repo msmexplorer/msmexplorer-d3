@@ -6,9 +6,21 @@ $(function () {
         }
   });
   
-  Backbone.Form.setTemplates({
-      customTemplate: '<div>{{fieldsets}}<label id="drop"><a>upload</a><input type="file" id="upload" onchange="handleInput()" multiple/></label><output id="list"></output></div>'
-  });
+  var label = $('#drop');
+  
+  // move the labels innerhtml into a <a> tag inside, so that
+  // users can see that there will be popover text, since its an a
+  label.append('<a class="sidebar-label"> upload</a>');
+  label.append('<input type="file" id="upload" onchange="handleInput()" multiple/>');
+  
+  var $help_el = $('#drop-help')
+  if ($help_el.length > 0) {
+    label.popover({content: $help_el.html(),
+                   placement: 'bottom',
+                   delay: { show: 300, hide: 100 },
+                   trigger: 'hover'});
+  }
+  
   
   Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
   //Backbone.Form.helpers.keyToTitle = function (key) {return key};
@@ -19,8 +31,7 @@ $(function () {
   for (var i in ModelsClasses) {
       model = new ModelsClasses[i]();
       var form = new Backbone.Form({
-		  template: 'customTemplate',
-          idPrefix: key + '-',
+          idPrefix: 'control-',
           model : model,
       }).render();
 
@@ -33,11 +44,6 @@ $(function () {
           var attrs = form.model.attributes;
           
       });
-	  
-	  //File Upload stuff
-	  //var fileInput = $('#upload');
-
-	  //fileInput.on('change', handleFileSelect(evt));
 
       //add the form to the dom, and to our collection
       $(model.el).append(form.el);
@@ -56,7 +62,7 @@ $(function () {
           // users can see that there will be popover text, since its an a
           var name = label[0].innerHTML;
           $(label).html('');
-          label.append('<a class="sidebar-label" href="#">' + name +'</a>');
+          label.append('<a class="sidebar-label">' + name +'</a>');
 
           var $help_el = $('#' + model.name + '-' + key + '-help')
           if ($help_el.length > 0) {
@@ -83,38 +89,4 @@ $(function () {
     e.preventDefault();
     $(this).tab('show');
   });
-});
-
-// respond to the click event on the save-script button
-$(function () {
-  save_script_local = function (e) {
-    e.preventDefault();
-    _gaq.push(['_trackEvent', 'Script', 'Save']);
-    var form = $('#save-form');
-
-    var script_input = $("<input name='value'></input");
-    var filename_input = form.find('input[name="filename"]')
-
-    // check if no value has been entered for the filename
-    var set_value_from_placeholder = false;
-    if (filename_input[0].value == '') {
-      set_value_from_placeholder = true;
-      filename_input[0].value = filename_input.attr('placeholder');
-    }
-
-    // need to escape out some html entities
-    var rawcode = $('#code').text();
-    var b64code = Base64.encode(rawcode)
-    script_input.attr('type', 'hidden').attr('value', b64code).appendTo(form);
-
-    // reset it, if we messed w/ the form
-    if (set_value_from_placeholder) {
-      filename_input[0].value = '';
-    }
-
-  };
-
-  Mousetrap.bind(['command+s', 'ctrl+s'], save_script_local);
-  $('#save-script-local').click(save_script_local);
-
 });

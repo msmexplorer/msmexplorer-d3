@@ -1,3 +1,5 @@
+var upload_results;
+
 function handleFileSelect(evt) {
   evt.stopPropagation();
   evt.preventDefault();
@@ -31,6 +33,7 @@ function handleInput() {
     } else {
         alert('Please upload a file before continuing')
     } 
+	$('#upload').val('');
 }
 
 function pushToHTML(f) {
@@ -47,20 +50,51 @@ function handleDragOver(evt) {
 }
 
 function processFile(e) {
-    var file = e.target.result,
-        results;
+    var file = e.target.result
     if (file && file.length) {
-        results = file.split("\n");
-	  try{
-	  	updateGraph(JSON.parse(results))
-	  } catch (err) {
-	  	bootbox.alert('Aw shucks! MSMExplorer-d3 requires a JSON file as input.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
-		$('#upload').val('');
-	  }
+        upload_results = file.split("\n");
+		post2tornado(0);
     }
 }
 
+function generatePaths() {
+	if (upload_results != null) {
+		post2tornado(1);
+	} else {
+	  	bootbox.alert('Aw shucks! You need to upload a Matrix Market before you can do this.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+	}
+}
+
+function post2tornado(mode) {
+	var wrong_type_msg = 'Aw shucks! MSMExplorer-d3 requires a Matrix Market file as input.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>',
+		response,
+		request;
+	try{
+		if (mode) {
+			
+	  		request =  {mode: mode,matrix: upload_results.join("\n"),sources: $("#control-sources").val(),sinks: $("#control-sinks").val(),num_paths:$("#control-n_paths").val()};
+		
+		} else {
+
+			request = {mode: mode,matrix: upload_results.join("\n"),cutoff: $("#control-cutoff").val(),resize: $("#control-resize").val()};
+
+		}
+		var load_screen = bootbox.alert('This Weighted Companion Cube will accompany you through the test chamber. Please take care of it. <br> <br> <img style="height: 150px; position: center" src="http://i.imgur.com/pHr5G.png"/>');
+		response = $.ajax({
+			type: "POST",
+			url: "/process",
+			async: true,
+			data: request,
+			success: function (data) {load_screen.modal('hide');updateGraph(JSON.parse(data));},
+			error: function (data) {load_screen.modal('hide');bootbox.alert(wrong_type_msg);},
+		});
+	  } catch (err) {
+	  	bootbox.alert('Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+		$('#upload').val('');
+	  }
+}
+
 // Setup the dnd listeners.
-var dropZone = document.getElementById('sidepane-tp');
+var dropZone = document.getElementById('dropzone');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);

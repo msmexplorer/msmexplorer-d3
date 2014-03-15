@@ -18,7 +18,7 @@
 
 	
 	<link href="css/style.css" rel="stylesheet">
-	<script src="http://d3js.org/d3.v2.min.js"></script>
+	<script src="js/d3.v2.min.js"></script>
 	
     <script src="js/libs/mousetrap.min.js"></script>
     <script src="js/lib.min.js"></script>
@@ -69,15 +69,20 @@
   <div class="row-fluid">
     <div class="span4">
       <ul id="sidebar-tab" class="nav nav-pills nav-tabs">
-        <li class="active"><a href="#input">Transition Paths</a></li>
-        <!--li><a href="#system">Markov States</a></li-->
+        <li class="active"><a href="#msm">Markov States</a></li>
+        <li><a href="#tp">Transition Paths</a></li>
       </ul>
       <!--Sidebar content-->
       <div class="tab-content">
-        <div class="tab-pane fade in active" id="tp"><div id="sidepane-tp">
+        <div class="tab-pane fade in active" id="msm"><div id="sidepane-msm">
         </div>
+		<div id="dropzone"><label id="drop"></label><output id="list"></output></div>
 	  </div>
-        <div class="tab-pane fade in" id="msm"><div id="sidepane-msm"></div></div>
+        <div class="tab-pane fade in" id="tp"><div id="sidepane-tp"></div>
+	  <div>
+		  <div><label id="submit"><a id="submit-tp" onclick="generatePaths()">Submit</a></label></div>
+	  </div>
+	  </div>
       </div>
       
     </div>

@@ -41,16 +41,19 @@ TP = Backbone.Model.extend({
   el: '#sidepane-tp',
   name: 'tp',
   schema: {
-	// sources:   {type: 'Text', title: 'Input source states:',
-	//             	validators: ['required', /[0-9]+(,[0-9]+)*$/]},
-	//     sinks: {type: 'Text', title: 'Input sink states:',
-	//             	validators: ['required', /[0-9]+(,[0-9]+)*$/]},
+	 sources:   {type: 'Text', title: 'Input source states:',
+	             	validators: ['required', /[0-9]+(,[0-9]+)*$/]},
+	 sinks: {type: 'Text', title: 'Input sink states:',
+					validators: ['required', /[0-9]+(,[0-9]+)*$/]},
+	 n_paths: {type: 'Select', title: 'Number of top paths:', options: [1,2,3,4,5,6,7,8,9,10]
+ 					},
   },
   
 
   defaults: {
-    // sources: '',
-    // sinks: '',
+     sources: '',
+     sinks: '',
+	 n_paths: 5,
   },
 });
 
@@ -58,14 +61,15 @@ MSM = Backbone.Model.extend({
   el: '#sidepane-msm',
   name: 'msm',
   schema: {
+ 	 cutoff:   {type: 'Text', title: 'Probability cutoff:',
+ 	             	validators: ['required', /^0.([0-9]+)*$/]},
+	 resize: 		{type: 'Select', title: 'Resize nodes by:', options: ['1st eigenvector','2nd eigenvector']
+ 					}, 
   },
 
   defaults: {
+	  cutoff: '0.0',
+	  resize: 'first eigenvector'
   },
 });
-
-
-
-
-
 });

@@ -4,3 +4,7 @@ simplejson==3.3.3
 tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
+msmbuilder==2.8
+networkx==1.8.1
+numpy==1.8.0
+scipy==0.13.3

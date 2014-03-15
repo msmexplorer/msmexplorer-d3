@@ -20,8 +20,6 @@ var force = d3.layout.force()
 var zoom = d3.behavior.zoom().x(y).y(y).scaleExtent([.5, 5]).on("zoom", redraw)
 		
 var svg = d3.select("#tpt").append("svg:svg")
-      	.attr("width", width)
-      	.attr("height", height)
 	  	.attr("viewBox", "0 0 " + width + " " + height)
       	.attr("preserveAspectRatio", "XminYmin meet")
 		.attr("pointer-events", "all")
@@ -64,7 +62,7 @@ function redraw() {
 function createGraph(data){
 	
 		var maxflux = 0,
-			maxpagerank = 0;
+			maxrank = 0;
 		if (data.directed) {
 			vis.append("g:defs").selectAll("marker")
 			    .data(["suit"])
@@ -87,8 +85,8 @@ function createGraph(data){
 		});
 		
 		data.nodes.forEach(function(n) {
-			if (n.pagerank != null) {
-				if (n.pagerank > maxpagerank) {maxpagerank = n.pagerank;};
+			if (n.size != null) {
+				if (n.size > maxrank) {maxrank = n.size;};
 			};
 		});
 		
@@ -102,7 +100,7 @@ function createGraph(data){
 		circle = vis.append("g:g").selectAll("circle")
 		    .data(data.nodes)
 		  .enter().append("circle")
-		    .attr("r", function(d) {if (d.pagerank != null) { return Math.max(1.7*r*d.pagerank/maxpagerank,4)} return r})
+		    .attr("r", function(d) {if (d.size != null) { return Math.max(1.7*r*d.size/maxrank,4)} return r})
 			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type; } return "circle none"})
 		    .call(force.drag);
 
@@ -123,7 +121,6 @@ function createGraph(data){
 		   .transition()
 		   .duration(1000)
 		   .style("opacity", 1);
-	
 }
 
 function updateGraph(data){
@@ -131,5 +128,4 @@ function updateGraph(data){
 	$("path").parent().remove();
 	$("text").parent().remove();
 	createGraph(data);
-	
 }

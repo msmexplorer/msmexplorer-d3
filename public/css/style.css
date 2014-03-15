@@ -25,7 +25,8 @@ html, body {
 
 #drop{
     background-color: none;
-	width: 150px;
+	width: auto;
+	max-width:150px;
     padding: 40px 50px;
     margin: 10px auto 10px;
     border: 10px dashed #ccc;
@@ -44,7 +45,8 @@ html, body {
     padding:12px 26px;
     color:#fff;
     font-size:14px;
-    border-radius:2px;
+    border-radius:6px;
+	box-shadow: 1px 1px 1px #888888;
     cursor:pointer;
     display:inline-block;
     margin-top:12px;
@@ -52,10 +54,11 @@ html, body {
 }
 
 #drop a:hover{
-    background-color:#0986a3;
+	color:lightgray;
 }
 
 #drop input{
+	width:auto;
     display:none;
 }
 
@@ -124,13 +127,12 @@ html, body {
     padding:10px;
     border:1px solid #ccc;
 }
-#drop-zone{
-    border:2px dashed #bbb;
-    border-radius:5px;
-    padding:25px;
-    text-align:center;
-    font: 20pt bold 'Vollkorn';
-    color:#bbb
+
+div.span4{
+	height: auto;
+	width:auto;
+	float: center;
+	min-width:320px;
 }
 
 .bbf-checkboxes label {
@@ -149,7 +151,12 @@ ul.bbf-checkboxes {
 
 label.control-label {
   margin: 5px 50px 0px 5px;
+  width: auto;
   float: left;
+}
+
+#controls {
+	width:auto;
 }
 
 .bbf-checkboxes li {
@@ -157,24 +164,75 @@ label.control-label {
   clear: both;
 }
 
+#submit{
+    background-color: none;
+	width: 100%;
+	max-width:150px;
+    padding:5px 50px;
+    margin: 10px auto 10px;
+    text-align: center;
+    text-transform: uppercase;
+	overflow: hidden;
+
+    font-size:16px;
+    font-weight:bold;
+    color:#7f858a;
+}
+
+#submit a{
+    background-color:#0088cc;
+    padding:12px 26px;
+    color:#fff;
+    font-size:14px;
+	text-decoration: none;
+    border-radius:6px;
+	box-shadow: 1px 1px 1px #888888;
+    cursor:pointer;
+    display:inline-block;
+    margin-top:12px;
+    line-height:1;
+}
+
+#submit a:hover{
+	color:lightgray;
+}
+
+
 svg {
 	height:100%;
-	width:100%;
+	width: auto;
 	padding:0px;
 	margin: 0em 0em 0em 0em;
 }
 
+svg:g(1){
+	height: auto;
+	width: auto;
+}
+
+.bbf-radio {
+	float: left;
+	margin-left: 0px;
+	margin-right: 0px;
+	white-space: nowrap;
+}
+
 pre {
 	padding:0em;
+	width:100%;
 }
 
 /* make sure that the input forms dont go any wider
    than their box*/
 input {
-  max-width: 150px;
+  width:auto;;
 }
 select {
   max-width: 165px;
+}
+
+li {
+	list-style:none;
 }
 
 .stderr {
@@ -183,19 +241,23 @@ select {
 
 /* adjust the width of the input forms*/
 .form-horizontal .control-label {
-  width: 100px;
+  width: 75px;
+  margin-bottom:10px;
   text-align: left;
   white-space: nowrap;
 }
 
 .form-horizontal .controls {
   margin-left: 150px;
-  width: 100px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  width: auto;
 }
 
 /* decrease the spacing between elements*/
 .form-horizontal .control-group {
   margin-bottom: -5px; /*adjust to your liking*/
+  width: auto;
 }
 /* but makee sure to add more space when
    there is an error*/
