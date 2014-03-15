@@ -23,7 +23,7 @@ Now you can fire up your favorite javascript-enabled browser and go to ``localho
 
 Use for Analysis
 ----------------
-Once you've built your MSM using MSMBuilder, you can just drag and drop the tProb.mtx into the webapp, and start visualizing the graph immediately. You can also go to the ``Transition Paths`` tab to generate the N-most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds to process.
+Once you've built your MSM using MSMBuilder, you can just drag and drop ``tProb.mtx`` into the webapp, and start visualizing the graph immediately. You can also go to the ``Transition Paths`` tab to generate the N-most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds to process.
 
 Todo
 ---------------
