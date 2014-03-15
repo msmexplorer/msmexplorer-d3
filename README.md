@@ -41,6 +41,7 @@ Shoutouts
 - [bootbox.js](http://bootboxjs.com/)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
+- [Heroku buildpack for sklearn](https://github.com/dbrgn/heroku-buildpack-python-sklearn)
 - [msmbuilder](http://msmbuilder.org/)
 - [@rmcgibbo](https://github.com/rmcgibbo)
 - [Pande Group](http://pande.stanford.edu/)
