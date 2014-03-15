@@ -7,7 +7,7 @@ A d3.js-based webapp powered by tornado that allows for analysis and interactive
 
 Before You Begin
 ----------------
-Before using MSMExplorer-d3.js, you will need to install MongoDb, pymongo, tornado, Heroku, and their respective requirements. MSMBuilder and NetworkX will eventually be needed to generate the graphs, but for now as long as you have a JSON formatted file with directed graph data this web application should work just fine.
+Before using MSMExplorer-d3.js, you will need to install MongoDb, pymongo, tornado, Heroku, MSMBuilder, NetworkX, and their respective requirements.
 
 
 Starting up the MSMExplorer-d3 on ``localhost``
@@ -16,16 +16,14 @@ Just enter the following into your terminal (while in the ``msmexplorer-d3`` tra
 
 ````
 $> mongod &
-$> python app.py -p 8000
+$> python app.py
 ````
 
-Now you can fire up your favorite javascript-enabled browser and go to ``localhost:8000`` to see the app in action.
+Now you can fire up your favorite javascript-enabled browser and go to ``localhost:5000`` to see the app in action.
 
 Use for Analysis
 ----------------
-At the moment, the app is pretty much useless on its own (but it's pretty!). However, you can easily generate a JSON representation of your TPs using the supplied iPython Notebook session in [``public/gen_json_graph.ipynb``](http://nbviewer.ipython.org/github/cxhernandez/msmexplorer-d3/blob/master/public/gen_json_graph.ipynb).
-
-Once you have a JSON-formatted network file, you can just drag and drop it into the webapp, and have the pathway visualization dynamically update. 
+Once you've built your MSM using MSMBuilder, you can just drag and drop the tProb.mtx into the webapp, and start visualizing the graph immediately. You can also go to the ``Transition Paths`` tab to generate the N-most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds to process.
 
 Todo
 ---------------
@@ -33,13 +31,16 @@ Todo
 In the future, I hope to provide additional functionalities:
 
 + Upload a metric to stratify the pathways for more meaningful analysis.
-+ Upload transition matrix, sources, and sinks on the the fly and get a network,
-+ Visualize whole MSM networks
++ Save results to a JSON file
 
 Shoutouts
 ----------------
 
 - [d3.js](http://d3js.org/)
+- [backbone.js](http://backbonejs.org/)
+- [bootbox.js](http://bootboxjs.com/)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
+- [msmbuilder](http://msmbuilder.org/)
 - [@rmcgibbo](https://github.com/rmcgibbo)
+- [Pande Group](http://pande.stanford.edu/)
