@@ -2,6 +2,7 @@ newrelic==2.16.0.12
 gunicorn==18.0
 simplejson==3.3.3
 numexpr==2.2.2
+numpy==1.8.0
 cython==0.18
 tornado==3.2
 wsgiref==0.1.2
