@@ -1,5 +1,5 @@
 TASKS
 =========
 
--Better error handling in UI
--Switch views on tab click
+- Better error handling in UI
+- Switch views on tab click
