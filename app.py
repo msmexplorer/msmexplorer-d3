@@ -1,4 +1,4 @@
-import os, optparse, uuid, urlparse, time, tornado
+import os, optparse, uuid, urlparse, time, tornado, h5py
 import scipy.io as sio
 import scipy.sparse as sparse
 import networkx as nx
