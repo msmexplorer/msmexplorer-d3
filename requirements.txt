@@ -1,3 +1,4 @@
+bitarry==0.8.0
 newrelic==2.16.0.12
 gunicorn==18.0
 simplejson==3.3.3
