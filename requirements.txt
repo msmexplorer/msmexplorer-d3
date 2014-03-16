@@ -3,7 +3,12 @@ gunicorn==18.0
 simplejson==3.3.3
 numexpr==2.2.2
 numpy==1.8.0
-cython==0.18
+-U -I cython==0.18
 tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
+h5py==2.2.1
+tables==3.1.0
+networkx==1.8.1
+mdtraj==0.6.1
+-e git://github.com/cxhernandez/msmbuilder@60947e9aad4dabcb5fd540183ec028cc7a77b29f#egg=msmbuilder-dev
