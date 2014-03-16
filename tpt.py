@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
-
+import sys
 import numpy as np
 import scipy.sparse
-
-from msmbuilder.utils import deprecated
+import scipy.sparse.linalg
+import scipy
+import warnings
+import multiprocessing
 
 import logging
 logger = logging.getLogger(__name__)
 
-
+DisableErrorChecking = False
 
 def _ensure_iterable(arg):
     if not hasattr(arg, '__iter__'):
@@ -216,7 +217,7 @@ def calculate_fluxes(sources, sinks, tprob, populations=None, committors=None):
 
     # check if we got the populations
     if populations is None:
-        eigens = sparse.linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,-1]
+        eigens = get_eigenvectors(tprob, 1)
         if np.count_nonzero(np.imag(eigens[1][:, 0])) != 0:
             raise ValueError('First eigenvector has imaginary components')
         populations = np.real(eigens[1][:, 0])
@@ -281,3 +282,146 @@ def calculate_net_fluxes(sources, sinks, tprob, populations=None, committors=Non
 
     return net_flux
 
+def calculate_committors(sources, sinks, tprob):
+
+    sources, sinks = _check_sources_sinks(sources, sinks)
+
+    if scipy.sparse.issparse(tprob):
+        dense = False
+        tprob = tprob.tolil()
+    else:
+        dense = True
+
+    # construct the committor problem
+    n = tprob.shape[0]
+
+    if dense:
+        T = np.eye(n) - tprob
+    else:
+        T = scipy.sparse.eye(n, n, 0, format='lil') - tprob
+        T = T.tolil()
+
+    for a in sources:
+        T[a, :] = 0.0  # np.zeros(n)
+        T[:, a] = 0.0
+        T[a, a] = 1.0
+
+    for b in sinks:
+        T[b, :] = 0.0  # np.zeros(n)
+        T[:, b] = 0.0
+        T[b, b] = 1.0
+
+    IdB = np.zeros(n)
+    IdB[sinks] = 1.0
+
+    if dense:
+        RHS = np.dot(tprob, IdB)
+    else:
+        RHS = tprob.dot(IdB)
+        # This should be the same as below
+        #RHS = tprob * IdB
+
+    RHS[sources] = 0.0
+    RHS[sinks] = 1.0
+
+    # solve for the committors
+    if dense == False:
+        Q = scipy.sparse.linalg.spsolve(T.tocsr(), RHS)
+    else:
+        Q = np.linalg.solve(T, RHS)
+
+    epsilon = 0.001
+    assert np.all(Q <= 1.0 + epsilon)
+    assert np.all(Q >= 0.0 - epsilon)
+
+    return Q
+
+def flatten(*args):
+    for x in args:
+        if hasattr(x, '__iter__'):
+            for y in flatten(*x):
+                yield y
+        else:
+            yield x
+
+def is_transition_matrix(t_matrix, epsilon=.00001):
+    n = t_matrix.shape[0]
+    row_sums = np.array(t_matrix.sum(1)).flatten()
+    if scipy.linalg.norm(row_sums - np.ones(n)) < epsilon:
+        return True
+    return False
+
+def are_all_dimensions_same(*args):
+    m = len(args)
+    dim_list = []
+    for i in range(m):
+        dims = scipy.shape(args[i])
+        dim_list.append(dims)
+    return len(np.unique(flatten(dim_list))) == 1
+
+def check_dimensions(*args):
+    if are_all_dimensions_same(*args) == False:
+        raise RuntimeError("All dimensions are not the same")
+
+def check_transition(t_matrix, epsilon=0.00001):
+
+    if not DisableErrorChecking and not is_transition_matrix(t_matrix, epsilon):
+        logger.critical(t_matrix)
+        logger.critical("Transition matrix is not a row normalized"
+                        " stocastic matrix. This is often caused by "
+                        "either numerical inaccuracies or by having "
+                        "states with zero counts.")
+
+def check_for_bad_eigenvalues(eigenvalues, decimal=5, cutoff_value=0.999999):
+
+    if abs(eigenvalues[0] - 1) > 1 - cutoff_value:
+        warnings.warn(("WARNING: the largest eigenvalue is not 1, "
+            "suggesting numerical error.  Try using 64 or 128 bit precision."))
+
+        if eigenvalues[1] > cutoff_value:
+            warnings.warn(("WARNING: the second largest eigenvalue (x) is close "
+            " to 1, suggesting numerical error or nonergodicity.  Try using 64 "
+            "or 128 bit precision.  Your data may also be disconnected, in "
+            "which case you cannot simultaneously model both disconnected "
+            "components.  Try collecting more data or trimming the "
+            " disconnected pieces."))
+
+
+def get_eigenvectors(t_matrix, n_eigs, epsilon=.001, dense_cutoff=50, right=False, tol=1E-30):
+
+    check_transition(t_matrix, epsilon)
+    check_dimensions(t_matrix)
+    n = t_matrix.shape[0]
+    if n_eigs > n:
+        logger.warning("You cannot calculate %d Eigenvectors from a %d x %d matrix." % (n_eigs, n, n))
+        n_eigs = n
+        logger.warning("Instead, calculating %d Eigenvectors." % n_eigs)
+    if n < dense_cutoff and scipy.sparse.issparse(t_matrix):
+        t_matrix = t_matrix.toarray()
+    elif n_eigs >= n - 1  and scipy.sparse.issparse(t_matrix):
+        logger.warning("ARPACK cannot calculate %d Eigenvectors from a %d x %d matrix." % (n_eigs, n, n))
+        n_eigs = n - 2
+        logger.warning("Instead, calculating %d Eigenvectors." % n_eigs)
+
+    # if we want the left eigenvectors, take the transpose
+    if not right:
+        t_matrix = t_matrix.transpose()
+
+    if scipy.sparse.issparse(t_matrix):
+        values, vectors = scipy.sparse.linalg.eigs(t_matrix.tocsr(), n_eigs, which="LR", maxiter=100000,tol=tol)
+    else:
+        values, vectors = scipy.linalg.eig(t_matrix)
+
+    order = np.argsort(-np.real(values))
+    e_lambda = values[order]
+    e_vectors = vectors[:, order]
+
+    check_for_bad_eigenvalues(e_lambda, cutoff_value=1 - epsilon)  # this is bad IMO --TJL
+
+    # normalize the first eigenvector (populations)
+    e_vectors[:, 0] /= sum(e_vectors[:, 0])
+
+    e_lambda = np.real(e_lambda[0: n_eigs])
+    e_vectors = np.real(e_vectors[:, 0: n_eigs])
+
+    return e_lambda, e_vectors

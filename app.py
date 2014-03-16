@@ -1,6 +1,7 @@
 import os, optparse, uuid, urlparse, time, tornado, tpt
 import scipy.io as sio
 import scipy.sparse as sparse
+import scipy.sparse.linalg as linalg
 import networkx as nx
 from networkx.readwrite import json_graph
 from StringIO import StringIO
@@ -37,7 +38,7 @@ def make_json_graph(M,request):
     c,e=float(request.get_argument('cutoff')),resize[str(request.get_argument('resize'))]
     t = M.copy().multiply(M > c)
     G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
-    r=dict(zip(range(M.shape[0]),map(abs,sparse.linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,e])))
+    r=dict(zip(range(M.shape[0]),map(abs,linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,e])))
     nx.set_node_attributes(G,'size',r)
     G.remove_nodes_from(nx.isolates(G))
     return str(json_graph.dumps(G))
