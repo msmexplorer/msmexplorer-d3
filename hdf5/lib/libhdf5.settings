@@ -1,0 +1,62 @@
+	    SUMMARY OF THE HDF5 CONFIGURATION
+	    =================================
+
+General Information:
+-------------------
+		   HDF5 Version: 1.9.145
+		  Configured on: Sat Mar 15 19:38:18 PDT 2014
+		  Configured by: cu3alibre@dn51u4aa.sunet
+		 Configure mode: development
+		    Host system: i386-apple-darwin13.1.0
+	      Uname information: Darwin dn51u4aa.sunet 13.1.0 Darwin Kernel Version 13.1.0: Thu Jan 16 19:40:37 PST 2014; root:xnu-2422.90.20~2/RELEASE_X86_64 x86_64
+		       Byte sex: little-endian
+		      Libraries: 
+	     Installation point: /Users/cu3alibre/msmexplorer-d3/hdf5
+
+Compiling Options:
+------------------
+               Compilation Mode: development
+                     C Compiler: /usr/bin/gcc
+                         CFLAGS: 
+                      H5_CFLAGS:  
+                      AM_CFLAGS: 
+                       CPPFLAGS: 
+                    H5_CPPFLAGS:   -UNDEBUG -DH5D_DEBUG -DH5E_DEBUG -DH5F_DEBUG -DH5G_DEBUG -DH5HG_DEBUG -DH5I_DEBUG -DH5MM_DEBUG -DH5O_DEBUG -DH5P_DEBUG -DH5S_DEBUG -DH5T_DEBUG -DH5V_DEBUG -DH5Z_DEBUG -DH5_DEBUG_API
+                    AM_CPPFLAGS: 
+               Shared C Library: yes
+               Static C Library: yes
+  Statically Linked Executables: no
+                        LDFLAGS: 
+                     H5_LDFLAGS: 
+                     AM_LDFLAGS: 
+ 	 	Extra libraries:  -lz -lm 
+ 		       Archiver: ar
+ 		 	 Ranlib: ranlib
+ 	      Debugged Packages: d,e,f,g,hg,i,mm,o,p,s,t,v,z
+		    API Tracing: yes
+
+Languages:
+----------
+                        Fortran: no
+
+                            C++: no
+
+Features:
+---------
+                  Parallel HDF5: no
+             High Level library: yes
+                   Threadsafety: no
+            Default API Mapping: v110
+ With Deprecated Public Symbols: yes
+         I/O filters (external): deflate(zlib)
+         I/O filters (internal): shuffle,fletcher32,nbit,scaleoffset
+                            MPE: no
+                     Direct VFD: no
+                        dmalloc: no
+Clear file buffers before write: yes
+           Using memory checker: no
+         Function Stack Tracing: no
+                           GPFS: no
+      Strict File Format Checks: yes
+   Optimization Instrumentation: yes
+       Large File Support (LFS): yes
