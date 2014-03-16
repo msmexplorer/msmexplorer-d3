@@ -7,7 +7,7 @@ cython==0.18
 tornado==3.2
 wsgiref==0.1.2
 pymongo==2.6.3
-h5py==2.2.1
+-e git://github.com/h5py/h5py.git
 tables==3.1.0
 networkx==1.8.1
 mdtraj==0.6.1
