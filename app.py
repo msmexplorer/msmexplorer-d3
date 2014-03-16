@@ -155,8 +155,6 @@ application = tornado.web.Application([
         (r'/', IndexHandler, {'path': 'public'}),
         (r'/js/(.*)', StaticFileHandler, {'path': 'public/js'}),
         (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),
-        (r'/assets/(.*)', StaticFileHandler, {'path': 'public/assets'}),        # 
-        # (r'/uploads/(.*)', StaticFileHandler, {'path': 'public/uploads'}),
         (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
         (r'/help/(.*)', StaticFileHandler, {'path': 'public/help'}),
         ], debug=True)
