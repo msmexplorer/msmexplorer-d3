@@ -1,7 +1,7 @@
 MSMExplorer-d3
 =================
 
-A d3.js-based webapp powered by tornado that allows for analysis and interactive visualizations of transition state pathways (TPs).
+A d3.js-based webapp powered by tornado that creates beautiful interactive visualizations of MSM data.
 
 ![MSMExplorer](https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png)
 
@@ -23,7 +23,7 @@ Now you can fire up your favorite javascript-enabled browser and go to ``localho
 
 Use for Analysis
 ----------------
-Once you've built your MSM using MSMBuilder, you can just drag and drop ``tProb.mtx`` into the webapp, and start visualizing the graph immediately. You can also go to the ``Transition Paths`` tab to generate the N-most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds to process.
+Once you've built your MSM, you can just drag and drop a Matrix Market file (``mtx``) into the webapp, and start visualizing the graph immediately. You can also go to the ``Transition Paths`` tab to generate the N most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds.
 
 Todo
 ---------------
@@ -31,7 +31,8 @@ Todo
 In the future, I hope to provide additional functionalities:
 
 + Upload a metric to stratify the pathways for more meaningful analysis.
-+ Save results to a JSON file
++ Add more coloring options.
++ Save results to a JSON file.
 
 Shoutouts
 ----------------
