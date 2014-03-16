@@ -36,7 +36,7 @@ def connect_to_mongo():
     
 def make_json_graph(M,request):
     c,e=float(request.get_argument('cutoff')),resize[str(request.get_argument('resize'))]
-    t = M.copy()*(M > c)
+    t = M.copy().multiply(M > c)
     G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
     r=dict(zip(range(M.shape[0]),map(abs,linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,e])))
     nx.set_node_attributes(G,'size',r)
@@ -44,7 +44,7 @@ def make_json_graph(M,request):
     return str(json_graph.dumps(G))
     
 def make_json_paths(M,request):
-    sources,sinks,n = map(int,request.get_argument('sources').split(",")),map(int,request.get_argument('sinks').split(",")),int(request.get_argument('num_paths'))
+    sources,sinks,n = map(int,request.get_argument('sources').replace(" ","").split(",")),map(int,request.get_argument('sinks').replace(" ","").split(",")),int(request.get_argument('num_paths'))
     paths = tpt.find_top_paths(sources,sinks,tprob=M,num_paths=n)
     G = nx.DiGraph()
     for j,i in enumerate(paths[0][::-1]):
