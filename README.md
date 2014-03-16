@@ -10,7 +10,7 @@ Before You Begin
 Before using MSMExplorer-d3.js, you will need to install ``mongodb``, ``pymongo``, ``tornado``, ``heroku-toolbelt``, ``msmbuilder``,``newrelic``, ``networkx``, and their respective requirements.
 
 
-Starting up the MSMExplorer-d3 on ``localhost``
+Starting up MSMExplorer-d3 on ``localhost``
 ----------------
 Just enter the following into your terminal (while in the ``msmexplorer-d3`` trajectory):
 
