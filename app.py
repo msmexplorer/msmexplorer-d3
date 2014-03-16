@@ -1,9 +1,8 @@
-import os, optparse, uuid, urlparse, time, tornado, h5py
+import os, optparse, uuid, urlparse, time, tornado, tpt
 import scipy.io as sio
 import scipy.sparse as sparse
 import networkx as nx
 from networkx.readwrite import json_graph
-from msmbuilder import tpt
 from StringIO import StringIO
 from threading import Lock
 from urllib import urlencode
