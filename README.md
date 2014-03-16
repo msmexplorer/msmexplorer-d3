@@ -7,7 +7,7 @@ A d3.js-based webapp powered by tornado that allows for analysis and interactive
 
 Before You Begin
 ----------------
-Before using MSMExplorer-d3.js, you will need to install ``mongodb``, ``pymongo``, ``tornado``, ``heroku-toolbelt``, ``msmbuilder``,``newrelic``, ``networkx``, and their respective requirements.
+Before using MSMExplorer-d3.js, you will should install ``numpy``,``scipy``,``mongodb``, ``pymongo``, ``tornado``, ``heroku-toolbelt``,``newrelic``, ``networkx``, and their respective requirements.
 
 
 Starting up MSMExplorer-d3 on ``localhost``
