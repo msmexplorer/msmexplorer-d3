@@ -24,69 +24,67 @@
 /* Major error codes */
 /*********************/
 
+#define H5E_DATASET          (H5OPEN H5E_DATASET_g)
 #define H5E_FUNC             (H5OPEN H5E_FUNC_g)
+#define H5E_STORAGE          (H5OPEN H5E_STORAGE_g)
 #define H5E_FILE             (H5OPEN H5E_FILE_g)
 #define H5E_SOHM             (H5OPEN H5E_SOHM_g)
 #define H5E_SYM              (H5OPEN H5E_SYM_g)
+#define H5E_PLUGIN           (H5OPEN H5E_PLUGIN_g)
 #define H5E_VFL              (H5OPEN H5E_VFL_g)
 #define H5E_INTERNAL         (H5OPEN H5E_INTERNAL_g)
 #define H5E_BTREE            (H5OPEN H5E_BTREE_g)
 #define H5E_REFERENCE        (H5OPEN H5E_REFERENCE_g)
 #define H5E_DATASPACE        (H5OPEN H5E_DATASPACE_g)
 #define H5E_RESOURCE         (H5OPEN H5E_RESOURCE_g)
-#define H5E_RS               (H5OPEN H5E_RS_g)
-#define H5E_FARRAY           (H5OPEN H5E_FARRAY_g)
-#define H5E_HEAP             (H5OPEN H5E_HEAP_g)
-#define H5E_ATTR             (H5OPEN H5E_ATTR_g)
-#define H5E_IO               (H5OPEN H5E_IO_g)
-#define H5E_EFL              (H5OPEN H5E_EFL_g)
-#define H5E_TST              (H5OPEN H5E_TST_g)
-#define H5E_FSPACE           (H5OPEN H5E_FSPACE_g)
-#define H5E_DATASET          (H5OPEN H5E_DATASET_g)
-#define H5E_STORAGE          (H5OPEN H5E_STORAGE_g)
-#define H5E_LINK             (H5OPEN H5E_LINK_g)
 #define H5E_PLIST            (H5OPEN H5E_PLIST_g)
+#define H5E_LINK             (H5OPEN H5E_LINK_g)
 #define H5E_DATATYPE         (H5OPEN H5E_DATATYPE_g)
+#define H5E_RS               (H5OPEN H5E_RS_g)
+#define H5E_HEAP             (H5OPEN H5E_HEAP_g)
 #define H5E_OHDR             (H5OPEN H5E_OHDR_g)
 #define H5E_ATOM             (H5OPEN H5E_ATOM_g)
+#define H5E_ATTR             (H5OPEN H5E_ATTR_g)
 #define H5E_NONE_MAJOR       (H5OPEN H5E_NONE_MAJOR_g)
+#define H5E_IO               (H5OPEN H5E_IO_g)
 #define H5E_SLIST            (H5OPEN H5E_SLIST_g)
+#define H5E_EFL              (H5OPEN H5E_EFL_g)
+#define H5E_TST              (H5OPEN H5E_TST_g)
 #define H5E_ARGS             (H5OPEN H5E_ARGS_g)
-#define H5E_EARRAY           (H5OPEN H5E_EARRAY_g)
-#define H5E_PLINE            (H5OPEN H5E_PLINE_g)
 #define H5E_ERROR            (H5OPEN H5E_ERROR_g)
+#define H5E_PLINE            (H5OPEN H5E_PLINE_g)
+#define H5E_FSPACE           (H5OPEN H5E_FSPACE_g)
 #define H5E_CACHE            (H5OPEN H5E_CACHE_g)
+H5_DLLVAR hid_t H5E_DATASET_g;       /* Dataset */
 H5_DLLVAR hid_t H5E_FUNC_g;          /* Function entry/exit */
+H5_DLLVAR hid_t H5E_STORAGE_g;       /* Data storage */
 H5_DLLVAR hid_t H5E_FILE_g;          /* File accessibilty */
 H5_DLLVAR hid_t H5E_SOHM_g;          /* Shared Object Header Messages */
 H5_DLLVAR hid_t H5E_SYM_g;           /* Symbol table */
+H5_DLLVAR hid_t H5E_PLUGIN_g;        /* Plugin for dynamically loaded library */
 H5_DLLVAR hid_t H5E_VFL_g;           /* Virtual File Layer */
 H5_DLLVAR hid_t H5E_INTERNAL_g;      /* Internal error (too specific to document in detail) */
 H5_DLLVAR hid_t H5E_BTREE_g;         /* B-Tree node */
 H5_DLLVAR hid_t H5E_REFERENCE_g;     /* References */
 H5_DLLVAR hid_t H5E_DATASPACE_g;     /* Dataspace */
 H5_DLLVAR hid_t H5E_RESOURCE_g;      /* Resource unavailable */
-H5_DLLVAR hid_t H5E_RS_g;            /* Reference Counted Strings */
-H5_DLLVAR hid_t H5E_FARRAY_g;        /* Fixed Array */
-H5_DLLVAR hid_t H5E_HEAP_g;          /* Heap */
-H5_DLLVAR hid_t H5E_ATTR_g;          /* Attribute */
-H5_DLLVAR hid_t H5E_IO_g;            /* Low-level I/O */
-H5_DLLVAR hid_t H5E_EFL_g;           /* External file list */
-H5_DLLVAR hid_t H5E_TST_g;           /* Ternary Search Trees */
-H5_DLLVAR hid_t H5E_FSPACE_g;        /* Free Space Manager */
-H5_DLLVAR hid_t H5E_DATASET_g;       /* Dataset */
-H5_DLLVAR hid_t H5E_STORAGE_g;       /* Data storage */
-H5_DLLVAR hid_t H5E_LINK_g;          /* Links */
 H5_DLLVAR hid_t H5E_PLIST_g;         /* Property lists */
+H5_DLLVAR hid_t H5E_LINK_g;          /* Links */
 H5_DLLVAR hid_t H5E_DATATYPE_g;      /* Datatype */
+H5_DLLVAR hid_t H5E_RS_g;            /* Reference Counted Strings */
+H5_DLLVAR hid_t H5E_HEAP_g;          /* Heap */
 H5_DLLVAR hid_t H5E_OHDR_g;          /* Object header */
 H5_DLLVAR hid_t H5E_ATOM_g;          /* Object atom */
+H5_DLLVAR hid_t H5E_ATTR_g;          /* Attribute */
 H5_DLLVAR hid_t H5E_NONE_MAJOR_g;    /* No error */
+H5_DLLVAR hid_t H5E_IO_g;            /* Low-level I/O */
 H5_DLLVAR hid_t H5E_SLIST_g;         /* Skip Lists */
+H5_DLLVAR hid_t H5E_EFL_g;           /* External file list */
+H5_DLLVAR hid_t H5E_TST_g;           /* Ternary Search Trees */
 H5_DLLVAR hid_t H5E_ARGS_g;          /* Invalid arguments to routine */
-H5_DLLVAR hid_t H5E_EARRAY_g;        /* Extensible Array */
-H5_DLLVAR hid_t H5E_PLINE_g;         /* Data filters */
 H5_DLLVAR hid_t H5E_ERROR_g;         /* Error API */
+H5_DLLVAR hid_t H5E_PLINE_g;         /* Data filters */
+H5_DLLVAR hid_t H5E_FSPACE_g;        /* Free Space Manager */
 H5_DLLVAR hid_t H5E_CACHE_g;         /* Object cache */
 
 /*********************/
@@ -221,6 +219,10 @@ H5_DLLVAR hid_t H5E_PATH_g;          /* Problem with path to object */
 #define H5E_NONE_MINOR       (H5OPEN H5E_NONE_MINOR_g)
 H5_DLLVAR hid_t H5E_NONE_MINOR_g;    /* No error */
 
+/* Plugin errors */
+#define H5E_OPENERROR        (H5OPEN H5E_OPENERROR_g)
+H5_DLLVAR hid_t H5E_OPENERROR_g;     /* Can't open directory or file */
+
 /* File accessibilty errors */
 #define H5E_FILEEXISTS       (H5OPEN H5E_FILEEXISTS_g)
 #define H5E_FILEOPEN         (H5OPEN H5E_FILEOPEN_g)
@@ -258,7 +260,6 @@ H5_DLLVAR hid_t H5E_NOIDS_g;         /* Out of IDs for group */
 /* Cache related errors */
 #define H5E_CANTFLUSH        (H5OPEN H5E_CANTFLUSH_g)
 #define H5E_CANTSERIALIZE    (H5OPEN H5E_CANTSERIALIZE_g)
-#define H5E_CANTTAG          (H5OPEN H5E_CANTTAG_g)
 #define H5E_CANTLOAD         (H5OPEN H5E_CANTLOAD_g)
 #define H5E_PROTECT          (H5OPEN H5E_PROTECT_g)
 #define H5E_NOTCACHED        (H5OPEN H5E_NOTCACHED_g)
@@ -272,12 +273,8 @@ H5_DLLVAR hid_t H5E_NOIDS_g;         /* Out of IDs for group */
 #define H5E_CANTDIRTY        (H5OPEN H5E_CANTDIRTY_g)
 #define H5E_CANTEXPUNGE      (H5OPEN H5E_CANTEXPUNGE_g)
 #define H5E_CANTRESIZE       (H5OPEN H5E_CANTRESIZE_g)
-#define H5E_CANTDEPEND       (H5OPEN H5E_CANTDEPEND_g)
-#define H5E_CANTUNDEPEND     (H5OPEN H5E_CANTUNDEPEND_g)
-#define H5E_CANTNOTIFY       (H5OPEN H5E_CANTNOTIFY_g)
 H5_DLLVAR hid_t H5E_CANTFLUSH_g;     /* Unable to flush data from cache */
 H5_DLLVAR hid_t H5E_CANTSERIALIZE_g; /* Unable to serialize data from cache */
-H5_DLLVAR hid_t H5E_CANTTAG_g;       /* Unable to tag metadata in the cache */
 H5_DLLVAR hid_t H5E_CANTLOAD_g;      /* Unable to load metadata into cache */
 H5_DLLVAR hid_t H5E_PROTECT_g;       /* Protected metadata error */
 H5_DLLVAR hid_t H5E_NOTCACHED_g;     /* Metadata not currently cached */
@@ -291,9 +288,6 @@ H5_DLLVAR hid_t H5E_CANTMARKDIRTY_g; /* Unable to mark a pinned entry as dirty *
 H5_DLLVAR hid_t H5E_CANTDIRTY_g;     /* Unable to mark metadata as dirty */
 H5_DLLVAR hid_t H5E_CANTEXPUNGE_g;   /* Unable to expunge a metadata cache entry */
 H5_DLLVAR hid_t H5E_CANTRESIZE_g;    /* Unable to resize a metadata cache entry */
-H5_DLLVAR hid_t H5E_CANTDEPEND_g;    /* Unable to create a flush dependency */
-H5_DLLVAR hid_t H5E_CANTUNDEPEND_g;  /* Unable to destroy a flush dependency */
-H5_DLLVAR hid_t H5E_CANTNOTIFY_g;    /* Unable to notify object about action */
 
 /* Link related errors */
 #define H5E_TRAVERSE         (H5OPEN H5E_TRAVERSE_g)

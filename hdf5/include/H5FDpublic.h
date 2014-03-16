@@ -74,39 +74,6 @@ typedef enum H5F_mem_t	H5FD_mem_t;
 #define H5FD_MEM_SOHM_TABLE     H5FD_MEM_OHDR
 #define H5FD_MEM_SOHM_INDEX     H5FD_MEM_BTREE
 
-/* Map "extensible array" header blocks to 'ohdr' type file memory, since its
- * a fair amount of work to add a new kind of file memory and they are similar
- * enough to object headers and probably too minor to deserve their own type.
- *
- * Map "extensible array" index blocks to 'ohdr' type file memory, since they
- * are similar to extensible array header blocks.
- *
- * Map "extensible array" super blocks to 'btree' type file memory, since they
- * are similar enough to B-tree nodes.
- *
- * Map "extensible array" data blocks & pages to 'lheap' type file memory, since
- * they are similar enough to local heap info.
- *
- *      -QAK
- */
-#define H5FD_MEM_EARRAY_HDR     H5FD_MEM_OHDR
-#define H5FD_MEM_EARRAY_IBLOCK  H5FD_MEM_OHDR
-#define H5FD_MEM_EARRAY_SBLOCK  H5FD_MEM_BTREE
-#define H5FD_MEM_EARRAY_DBLOCK  H5FD_MEM_LHEAP
-#define H5FD_MEM_EARRAY_DBLK_PAGE  H5FD_MEM_LHEAP
-
-/* Map "fixed array" header blocks to 'ohdr' type file memory, since its
- * a fair amount of work to add a new kind of file memory and they are similar
- * enough to object headers and probably too minor to deserve their own type.
- *
- * Map "fixed array" data blocks & pages to 'lheap' type file memory, since
- * they are similar enough to local heap info.
- *
- */
-#define H5FD_MEM_FARRAY_HDR     H5FD_MEM_OHDR
-#define H5FD_MEM_FARRAY_DBLOCK  H5FD_MEM_LHEAP
-#define H5FD_MEM_FARRAY_DBLK_PAGE  H5FD_MEM_LHEAP
-
 /*
  * A free-list map which maps all types of allocation requests to a single
  * free list.  This is useful for drivers that don't really care about
@@ -209,19 +176,7 @@ typedef enum H5F_mem_t	H5FD_mem_t;
      * the handle for the VFD (returned with the 'get_handle' callback) is
      * of type 'int' and is compatible with POSIX I/O calls.
      */
-#define H5FD_FEAT_POSIX_COMPAT_HANDLE   0x00000080    
-    /*
-     * Defining the H5FD_FEAT_HAS_MPI for a VFL driver means that
-     * the driver makes use of MPI communication and code may retrieve
-     * communicator/rank information from it
-     */
-#define H5FD_FEAT_HAS_MPI               0x00000100
-    /*
-     * Defining the H5FD_FEAT_ALLOCATE_EARLY for a VFL driver means that
-     * the library will use the H5D_ALLOC_TIME_EARLY on dataset create
-     * instead of the default H5D_ALLOC_TIME_LATE
-     */
-#define H5FD_FEAT_ALLOCATE_EARLY        0x00000200
+#define H5FD_FEAT_POSIX_COMPAT_HANDLE   0x00000080
     /* 
      * Defining the H5FD_FEAT_ALLOW_FILE_IMAGE for a VFL driver means that
      * the driver is able to use a file image in the fapl as the initial
@@ -244,7 +199,6 @@ typedef struct H5FD_class_t {
     const char *name;
     haddr_t maxaddr;
     H5F_close_degree_t fc_degree;
-    herr_t  (*terminate)(void);
     hsize_t (*sb_size)(H5FD_t *file);
     herr_t  (*sb_encode)(H5FD_t *file, char *name/*out*/,
                          unsigned char *p/*out*/);
