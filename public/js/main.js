@@ -13,7 +13,7 @@ $(function () {
   label.append('<a class="sidebar-label"> upload</a>');
   label.append('<input type="file" id="upload" onchange="handleInput()" multiple/>');
   
-  var $help_el = $('#drop-help')
+  var $help_el = $('#drop-help');
   if ($help_el.length > 0) {
     label.popover({content: $help_el.html(),
                    placement: 'bottom',
@@ -38,10 +38,6 @@ $(function () {
       // make the form revalidate when anything is changed
       form.on('change', function(form) {
           form.commit({validate: true});
-
-          // run the visibility functions to toggle
-          // the show/hide of the form elements
-          var attrs = form.model.attributes;
           
       });
 
@@ -55,8 +51,7 @@ $(function () {
 
       // install the popover help text
       for (var key in model.schema) {
-          var options = model.schema[key];
-          var label = $('label[for="' + form.options.idPrefix + key + '"]');
+          label = $('label[for="' + form.options.idPrefix + key + '"]');
 
           // move the labels innerhtml into a <a> tag inside, so that
           // users can see that there will be popover text, since its an a
@@ -64,7 +59,7 @@ $(function () {
           $(label).html('');
           label.append('<a class="sidebar-label">' + name +'</a>');
 
-          var $help_el = $('#' + model.name + '-' + key + '-help')
+          $help_el = $('#' + model.name + '-' + key + '-help');
           if ($help_el.length > 0) {
             label.popover({content: $help_el.html(),
                            placement: 'bottom',

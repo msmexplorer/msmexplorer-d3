@@ -8,7 +8,6 @@ function handleFileSelect(evt) {
 
   // files is a FileList of File objects. List some properties.
   for (var i = 0, f; f = files[i]; i++) {
-	  
 	var reader = new FileReader();
     reader.readAsText(f);
 	$(reader).on('load', processFile);
@@ -19,7 +18,7 @@ function handleFileSelect(evt) {
 function handleInput() {
 	var fileInput = $('#upload');
     if (!window.FileReader) {
-        alert('Your browser is not supported')
+        alert('Your browser is not supported');
     }
     var input = fileInput.get(0);
 
@@ -31,7 +30,7 @@ function handleInput() {
         $(reader).on('load', processFile);
 		pushToHTML(f);
     } else {
-        alert('Please upload a file before continuing')
+        alert('Please upload a file before continuing');
     } 
 	$('#upload').val('');
 }
@@ -50,7 +49,7 @@ function handleDragOver(evt) {
 }
 
 function processFile(e) {
-    var file = e.target.result
+    var file = e.target.result;
     if (file && file.length) {
         upload_results = file.split("\n");
 		post2tornado(0);
@@ -61,7 +60,7 @@ function generatePaths() {
 	if (upload_results != null) {
 		post2tornado(1);
 	} else {
-	  	bootbox.alert('Aw shucks! You need to upload a Matrix Market before you can do this.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+    bootbox.alert('Aw shucks! You need to upload a Matrix Market before you can do this.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
 	}
 }
 
@@ -71,9 +70,7 @@ function post2tornado(mode) {
 		request;
 	try{
 		if (mode) {
-			
-	  		request =  {mode: mode,matrix: upload_results.join("\n"),sources: $("#control-sources").val(),sinks: $("#control-sinks").val(),num_paths:$("#control-n_paths").val()};
-		
+      request =  {mode: mode,matrix: upload_results.join("\n"),sources: $("#control-sources").val(),sinks: $("#control-sinks").val(),num_paths:$("#control-n_paths").val()};
 		} else {
 
 			request = {mode: mode,matrix: upload_results.join("\n"),cutoff: $("#control-cutoff").val(),resize: $("#control-resize").val()};
@@ -86,12 +83,12 @@ function post2tornado(mode) {
 			async: true,
 			data: request,
 			success: function (data) {load_screen.modal('hide');updateGraph(JSON.parse(data));},
-			error: function (data) {load_screen.modal('hide');bootbox.alert(wrong_type_msg);},
+			error: function () {load_screen.modal('hide');bootbox.alert(wrong_type_msg);},
 		});
-	  } catch (err) {
-	  	bootbox.alert('Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+  } catch (err) {
+      bootbox.alert('Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
 		$('#upload').val('');
-	  }
+	}
 }
 
 // Setup the dnd listeners.

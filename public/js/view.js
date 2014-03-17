@@ -1,4 +1,4 @@
-var circle, path, text, rect;
+var circle, path, text;
 
 var	width = 900,
     height = 550,
@@ -17,7 +17,7 @@ var force = d3.layout.force()
 	    .linkDistance(40)
 	    .size([width, height]);
 		
-var zoom = d3.behavior.zoom().x(y).y(y).scaleExtent([.5, 5]).on("zoom", redraw)
+var zoom = d3.behavior.zoom().x(x).y(y).scaleExtent([.5, 5]).on("zoom", redraw)
 		
 var svg = d3.select("#tpt").append("svg:svg")
 	  	.attr("viewBox", "0 0 " + width + " " + height)
@@ -35,7 +35,7 @@ force.on('tick', function() {
 });
 
 function linkArc(d) {
-  var x = (d.target.x),
+  	  x = (d.target.x),
       y = (d.target.y),
       dx = x - d.source.x,
       dy = y - d.source.y,
@@ -48,8 +48,8 @@ function transform(d) {
 }
 
 function redraw() {
-   tx = d3.event.translate[0],
-   ty = d3.event.translate[1];
+   var tx = d3.event.translate[0];
+   var ty = d3.event.translate[1];
    tx = Math.min(tx, 1.1*d3.event.scale*width);
    tx = Math.max(tx, -1.1*d3.event.scale*width);
    ty = Math.min(ty, 1.1*d3.event.scale*width);
@@ -100,8 +100,8 @@ function createGraph(data){
 		circle = vis.append("g:g").selectAll("circle")
 		    .data(data.nodes)
 		  .enter().append("circle")
-		    .attr("r", function(d) {if (d.size != null) { return Math.max(1.7*r*d.size/maxrank,4)} return r})
-			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type; } return "circle none"})
+		    .attr("r", function(d) {if (d.size != null) { return Math.max(1.7*r*d.size/maxrank,4);} return r;})
+			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type;} return "circle none";})
 		    .call(force.drag);
 
 		text = vis.append("g:g").selectAll("text")
