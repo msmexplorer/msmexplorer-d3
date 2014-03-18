@@ -66,6 +66,7 @@ function generatePaths() {
 
 function post2tornado(mode) {
 	var wrong_type_msg = 'Aw shucks! MSMExplorer-d3 requires a Matrix Market file as input.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>',
+		we_did_bad ='Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>',
 		response,
 		request;
 	try{
@@ -76,19 +77,28 @@ function post2tornado(mode) {
 			request = {mode: mode,matrix: upload_results.join("\n"),cutoff: $("#control-cutoff").val(),resize: $("#control-resize").val()};
 
 		}
-		var load_screen = bootbox.alert('This Weighted Companion Cube will accompany you through the test chamber. Please take care of it. <br> <br> <img style="height: 150px; position: center" src="http://i.imgur.com/pHr5G.png"/>');
+		load_screen_on()
 		response = $.ajax({
 			type: "POST",
 			url: "/process",
 			async: true,
 			data: request,
-			success: function (data) {load_screen.modal('hide');updateGraph(JSON.parse(data));},
-			error: function () {load_screen.modal('hide');bootbox.alert(wrong_type_msg);},
+			success: function (data) {load_screen_off();updateGraph(JSON.parse(data));},
+			error: function () {bootbox.alert(wrong_type_msg);},
 		});
   } catch (err) {
-      bootbox.alert('Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+      bootbox.alert(we_did_bad);
 		$('#upload').val('');
 	}
+}
+
+function load_screen_on() {
+	clearGraph();
+	$('#viewer').prepend('<div class="spinner"><div class="cube1"></div><div class="cube2"></div></div>')
+}
+
+function load_screen_off() {
+	$('.spinner').remove()
 }
 
 // Setup the dnd listeners.

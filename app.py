@@ -1,7 +1,6 @@
 import os, optparse, uuid, urlparse, time, tornado, tpt
 import scipy.io as sio
 import scipy.sparse as sparse
-import scipy.sparse.linalg as linalg
 import networkx as nx
 from networkx.readwrite import json_graph
 from StringIO import StringIO
@@ -18,7 +17,7 @@ from tornado.httpclient import AsyncHTTPClient
 newrelic.agent.initialize('newrelic.ini') 
 __UPLOADS__ = "./public/uploads/"
 __DB__ = 'MONGOHQ_URL'
-resize = {'1st eigenvector':-1,'2nd eigenvector':-2}
+resize = {'pagerank':'pr','1st eigenvector':1,'2nd eigenvector':2}
 
 HTTP_CLIENT = AsyncHTTPClient()
 def urldecode(s):
@@ -36,9 +35,15 @@ def connect_to_mongo():
     
 def make_json_graph(M,request):
     c,e=float(request.get_argument('cutoff')),resize[str(request.get_argument('resize'))]
-    t = M.copy()*(M > c)
+    t = M.copy().tocsr()
+    t.data[t.data < c] = 0
+    t.eliminate_zeros()
     G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
-    r=dict(zip(range(M.shape[0]),map(abs,linalg.eigs(sparse.coo_matrix.transpose(M))[1][:,e])))
+    if e is 'pr':
+        metric = nx.pagerank_scipy(G)
+    else:
+        metric = tpt.get_eigenvectors(M, e)[1][:,e-1]
+    r=dict(zip(range(t.shape[0]),metric))
     nx.set_node_attributes(G,'size',r)
     G.remove_nodes_from(nx.isolates(G))
     return str(json_graph.dumps(G))
@@ -134,19 +139,7 @@ class UploadHandler(tornado.web.RequestHandler):
             self.write(make_json_paths(w,self))
         else:
             self.write(make_json_graph(w,self))
-        
-        
-        
-        # fileinfo = self.request.files['filearg'][0]
-#         fname = fileinfo['filename']
-#         extn = os.path.splitext(fname)[1]
-#         cname = 'tpt.json'
-#         if 'json' in extn:
-#         # cname = str(uuid.uuid4())+ extn
-#             print "Uploading %s to %s" % (cname,__UPLOADS__)
-#             fh = open(__UPLOADS__ + extn, 'w')
-#             fh.write(fileinfo['body'])
-#         self.finish(cname + " has uploaded. Check %s folder" %__UPLOADS__)
+
  
  
 application = tornado.web.Application([
