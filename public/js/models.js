@@ -63,7 +63,7 @@ MSM = Backbone.Model.extend({
   schema: {
  	 cutoff:   {type: 'Text', title: 'Probability cutoff:',
  	             	validators: ['required', /^0.([0-9]+)*$/]},
-	 resize: 		{type: 'Select', title: 'Resize nodes by:', options: ['pagerank','1st eigenvector','2nd eigenvector']
+	 resize: 		{type: 'Select', title: 'Resize nodes by:', options: ['pagerank','closeness centrality','flow betweenness','1st eigenvector','2nd eigenvector']
  					}, 
   },
 

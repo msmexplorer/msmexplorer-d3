@@ -76,8 +76,6 @@ $(function () {
 });
 
 
-// SOME EXTRA STUFF THAT NEEDS TO BE DONE ONLOAD
-
 // activate the tab system in the sidebar
 $(function () {
   $('#sidebar-tab a').click(function (e) {

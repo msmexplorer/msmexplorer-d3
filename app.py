@@ -17,7 +17,12 @@ from tornado.httpclient import AsyncHTTPClient
 newrelic.agent.initialize('newrelic.ini') 
 __UPLOADS__ = "./public/uploads/"
 __DB__ = 'MONGOHQ_URL'
-resize = {'pagerank':'pr','1st eigenvector':1,'2nd eigenvector':2}
+resize = {  'pagerank':lambda x,y,z: nx.pagerank_scipy(x),
+            '1st eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]),tpt.get_eigenvectors(y, 1)[1][:,0])),
+            '2nd eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]),tpt.get_eigenvectors(y, 2)[1][:,1])),
+            'closeness centrality': lambda x,y,z: nx.closeness_centrality(x),
+            'flow betweenness': lambda x,y,z: nx.approximate_current_flow_betweenness_centrality(x)
+          }
 
 HTTP_CLIENT = AsyncHTTPClient()
 def urldecode(s):
@@ -34,17 +39,13 @@ def connect_to_mongo():
     return c.app22870053
     
 def make_json_graph(M,request):
-    c,e=float(request.get_argument('cutoff')),resize[str(request.get_argument('resize'))]
+    c,e=float(request.get_argument('cutoff')),str(request.get_argument('resize'))
     t = M.copy().tocsr()
     t.data[t.data < c] = 0
     t.eliminate_zeros()
     G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
-    if e is 'pr':
-        metric = nx.pagerank_scipy(G)
-    else:
-        metric = tpt.get_eigenvectors(M, e)[1][:,e-1]
-    r=dict(zip(range(t.shape[0]),metric))
-    nx.set_node_attributes(G,'size',r)
+    metric = resize[e](G,M,t)
+    nx.set_node_attributes(G,'size',metric)
     G.remove_nodes_from(nx.isolates(G))
     return str(json_graph.dumps(G))
     
@@ -139,7 +140,6 @@ class UploadHandler(tornado.web.RequestHandler):
             self.write(make_json_paths(w,self))
         else:
             self.write(make_json_graph(w,self))
-
  
  
 application = tornado.web.Application([

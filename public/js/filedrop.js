@@ -71,7 +71,7 @@ function post2tornado(mode) {
 		request;
 	try{
 		if (mode) {
-      request =  {mode: mode,matrix: upload_results.join("\n"),sources: $("#control-sources").val(),sinks: $("#control-sinks").val(),num_paths:$("#control-n_paths").val()};
+      	  	request =  {mode: mode,matrix: upload_results.join("\n"),sources: $("#control-sources").val(),sinks: $("#control-sinks").val(),num_paths:$("#control-n_paths").val()};
 		} else {
 
 			request = {mode: mode,matrix: upload_results.join("\n"),cutoff: $("#control-cutoff").val(),resize: $("#control-resize").val()};
