@@ -84,11 +84,12 @@ function post2tornado(mode) {
 			async: true,
 			data: request,
 			success: function (data) {load_screen_off();updateGraph(JSON.parse(data));},
-			error: function () {bootbox.alert(wrong_type_msg);},
+			error: function () {$('.spinner').remove();bootbox.alert(wrong_type_msg);},
 		});
   } catch (err) {
+	  $('.spinner').remove();
       bootbox.alert(we_did_bad);
-		$('#upload').val('');
+	  $('#upload').val('');
 	}
 }
 

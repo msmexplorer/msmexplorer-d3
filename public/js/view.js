@@ -27,6 +27,7 @@ var svg = d3.select("#viewer").append("svg:svg")
 		.call(zoom);
 		
 var vis = svg.append("g");
+var defs = vis.append("g:defs");
 		  	
 // Use elliptical arc path segments to doubly-encode directionality.
 force.on('tick', function() {
@@ -63,7 +64,7 @@ function createGraph(data){
 		var maxflux = 0,
 			maxrank = 0;
 		if (data.directed) {
-			vis.append("g:defs").selectAll("marker")
+			defs.selectAll("marker")
 			    .data(["suit"])
 			  .enter().append("marker")
 			    .attr("id", function(d) { return d; })
@@ -101,6 +102,7 @@ function createGraph(data){
 		  .enter().append("circle")
 		    .attr("r", function(d) {if (d.size != null) { return Math.max(1.7*r*d.size/maxrank,4.5);} return r;})
 			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type;} return "circle none";})
+			.attr("id",function(d) {$('#control-state_id').append('<option>'+d.id+'</option>');return "state-" + d.id;})
 		    .call(force.drag);
 
 		text = vis.append("g:g").selectAll("text")
@@ -128,6 +130,7 @@ function updateGraph(data){
 }
 
 function clearGraph() {
+	$('#control-state_id').children('option').remove();
 	$("circle").parent().remove();
 	$("path").parent().remove();
 	$("text").parent().remove();

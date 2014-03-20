@@ -25,7 +25,8 @@
 	
 	<script src="js/validators.js"></script>
 	<script src="js/models.js"></script>
-	<script src="js/main.js"></script>		
+	<script src="js/main.js"></script>
+		
 	<!-- Google Analytics -->
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -71,20 +72,28 @@
       <ul id="sidebar-tab" class="nav nav-pills nav-tabs">
         <li class="active"><a href="#msm">Markov States</a></li>
         <li><a href="#tp">Transition Paths</a></li>
+		<li><a href="#struct">Add Structures</a></li>
       </ul>
       <!--Sidebar content-->
       <div class="tab-content">
-        <div class="tab-pane fade in active" id="msm"><div id="sidepane-msm">
-        </div>
-		<div id="dropzone"><label id="drop"></label><output id="list"></output></div>
-	  </div>
+        <div class="tab-pane fade in active" id="msm"><div id="sidepane-msm"></div>
+			<div id="dropzone"><label id="drop"></label><output id="list"></output></div>
+	    </div>
         <div class="tab-pane fade in" id="tp"><div id="sidepane-tp"></div>
 	  <div>
 		  <div><label id="submit"><a id="submit-tp" onclick="generatePaths()">generate</a></label></div>
 	  </div>
 	  </div>
-      </div>
-      
+	  <div class="tab-pane fade in" id="struct"><div id="sidepane-struct"></div>
+	  	<div class="mol-wrapper">
+	    	<pre id="glmol01"></pre>
+		</div>
+			<div>
+			<input id="glmol01_file" type="file" size=1><button onClick="loadFile()">Load from file</button><button onClick="saveImage()">Print image</button>
+			</div>
+	
+	  </div>
+      </div> 
     </div>
     <div class="span8">
       <!--Body content-->
@@ -108,5 +117,8 @@
 </div>
 <script src="js/view.js"></script>
 <script src="js/filedrop.js"></script>
+<script src="js/glmol/Three49custom.js"></script>
+<script src="js/glmol/GLmol.js"></script>
+<script src="js/gmol_view.js"></script>
 </body>
 </html>

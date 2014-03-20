@@ -63,13 +63,24 @@ MSM = Backbone.Model.extend({
   schema: {
  	 cutoff:   {type: 'Text', title: 'Probability cutoff:',
  	             	validators: ['required', /^0.([0-9]+)*$/]},
-	 resize: 		{type: 'Select', title: 'Resize nodes by:', options: ['pagerank','closeness centrality','flow betweenness','1st eigenvector','2nd eigenvector']
+	 resize: 		{type: 'Select', title: 'Resize nodes by:', options: ['pagerank','closeness centrality','1st eigenvector','2nd eigenvector']
  					}, 
   },
 
   defaults: {
 	  cutoff: '0.0',
 	  resize: 'first eigenvector'
+  },
+});
+STRUCT = Backbone.Model.extend({
+  el: '#sidepane-struct',
+  name: 'struct',
+  schema: {
+	  state_id: {type: 'Select', title: 'State:', options: []
+  		}
+  },
+
+  defaults: {
   },
 });
 });

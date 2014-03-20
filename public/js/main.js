@@ -25,7 +25,7 @@ $(function () {
   Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
   //Backbone.Form.helpers.keyToTitle = function (key) {return key};
 
-  var ModelsClasses = [TP, MSM];
+  var ModelsClasses = [TP, MSM, STRUCT];
   var collection = new Collection([]);
 
   for (var i in ModelsClasses) {
