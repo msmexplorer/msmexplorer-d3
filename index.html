@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="MSMExplorer-d3 : A d3.js-based webtool for analysis and interactive visualization of transition state pathways." />
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>MSMExplorer-d3 by cxhernandez</title>
+    <title>MSMExplorer-d3</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>MSMExplorer-d3</h1>
-        <h2>A d3.js-based webtool for analysis and interactive visualization of transition state pathways.</h2>
-        <a href="https://github.com/cxhernandez/msmexplorer-d3" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/cxhernandez/msmexplorer-d3">View on GitHub</a>
+
+          <h1 id="project_title">MSMExplorer-d3</h1>
+          <h2 id="project_tagline">A d3.js-based webtool for analysis and interactive visualization of transition state pathways.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/cxhernandez/msmexplorer-d3/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/cxhernandez/msmexplorer-d3/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
 <a name="msmexplorer-d3" class="anchor" href="#msmexplorer-d3"><span class="octicon octicon-link"></span></a>MSMExplorer-d3</h1>
 
 <p>A d3.js-based webapp powered by tornado that creates beautiful interactive visualizations of MSM data.</p>
@@ -38,7 +41,9 @@
 <h2>
 <a name="before-you-begin" class="anchor" href="#before-you-begin"><span class="octicon octicon-link"></span></a>Before You Begin</h2>
 
-<p>Before using MSMExplorer-d3.js, you will should install <code>numpy</code>,<code>scipy</code>,<code>mongodb</code>, <code>pymongo</code>, <code>tornado</code>, <code>heroku-toolbelt</code>,<code>newrelic</code>, <code>networkx</code>, and their respective requirements.</p>
+<p>Before running MSMExplorer-d3 locally for development, you should install <code>numpy</code>,<code>scipy</code>,<code>mongodb</code>, <code>pymongo</code>, <code>tornado</code>, <code>heroku-toolbelt</code>,<code>newrelic</code>, <code>networkx</code>, and their respective requirements.</p>
+
+<p>If you simply want to use the webapp for visualization purposes, <a href="http://msmexplorer-d3.herokuapp.com">here</a> is the latest version of MSMExplorer-d3 running on Heroku.</p>
 
 <h2>
 <a name="starting-up-msmexplorer-d3-on-localhost" class="anchor" href="#starting-up-msmexplorer-d3-on-localhost"><span class="octicon octicon-link"></span></a>Starting up MSMExplorer-d3 on <code>localhost</code>
@@ -55,7 +60,7 @@ $&gt; python app.py
 <h2>
 <a name="use-for-analysis" class="anchor" href="#use-for-analysis"><span class="octicon octicon-link"></span></a>Use for Analysis</h2>
 
-<p>Once you've built your MSM, you can just drag and drop a Matrix Market file (<code>mtx</code>) into the webapp, and start visualizing the graph immediately. You can also go to the <code>Transition Paths</code> tab to generate the N most-likely paths from source states to sink states. Please note that pathway generation can take a few seconds.</p>
+<p>Once you've built your MSM, you can just drag and drop a Matrix Market file (<code>mtx</code>) into the webapp, and start visualizing the graph immediately. You can choose different network metrics with which to resize nodes, zoom, and pan over the graph. You can also go to the <code>Transition Paths</code> tab to generate the N most-likely paths from source states to sink states. You can also upload and visualize PDB files, save a molecule logo to represent a node on the graph, and finally save the graph as an SVG.</p>
 
 <h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h2>
@@ -64,7 +69,6 @@ $&gt; python app.py
 
 <ul>
 <li>Upload a metric to stratify the pathways for more meaningful analysis.</li>
-<li>Add more coloring options.</li>
 <li>Save results to a JSON file.</li>
 </ul><h2>
 <a name="shoutouts" class="anchor" href="#shoutouts"><span class="octicon octicon-link"></span></a>Shoutouts</h2>
@@ -73,32 +77,27 @@ $&gt; python app.py
 <li><a href="http://d3js.org/">d3.js</a></li>
 <li><a href="http://backbonejs.org/">backbone.js</a></li>
 <li><a href="http://bootboxjs.com/">bootbox.js</a></li>
+<li><a href="https://github.com/NYTimes/svg-crowbar">crowbar.js</a></li>
 <li><a href="http://www.tornadoweb.org/en/stable/">tornado</a></li>
 <li><a href="http://www.mongodb.org/">mongodb</a></li>
 <li><a href="https://github.com/dbrgn/heroku-buildpack-python-sklearn">Heroku buildpack for sklearn</a></li>
 <li><a href="http://msmbuilder.org/">msmbuilder</a></li>
+<li><a href="https://github.com/biochem-fan/GLmol">GLmol</a></li>
 <li><a href="https://github.com/rmcgibbo">@rmcgibbo</a></li>
 <li><a href="http://pande.stanford.edu/">Pande Group</a></li>
 </ul>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/cxhernandez/msmexplorer-d3/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/cxhernandez/msmexplorer-d3/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/cxhernandez/msmexplorer-d3"></a> is maintained by <a href="https://github.com/cxhernandez">cxhernandez</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-  
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">MSMExplorer-d3 maintained by <a href="https://github.com/cxhernandez">cxhernandez</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
