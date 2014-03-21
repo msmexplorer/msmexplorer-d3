@@ -51,7 +51,7 @@ GLmol.prototype.create = function(id, suppressAutoload) {
                    "ZN": 1.39, "CU": 1.4, "NI": 1.63};
 
    this.id = id;
-   this.aaScale = 5; // or 2
+   this.aaScale = 4; // or 2
 
    this.container = $('#' + this.id);
    this.WIDTH = this.container.width() * this.aaScale, this.HEIGHT = this.container.height() * this.aaScale;
@@ -1321,6 +1321,14 @@ GLmol.prototype.colorByStructure = function(atomlist, helixColor, sheetColor, co
       if (!colorSidechains && (atom.atom != 'CA' || atom.hetflag)) continue;
       if (atom.ss[0] == 's') atom.color = sheetColor;
       else if (atom.ss[0] == 'h') atom.color = helixColor;
+   }
+};
+
+GLmol.prototype.colorByUserColors = function(atomlist, Colors, colorSidechains) {
+   for (var i in atomlist) {
+      var atom = this.atoms[atomlist[i]]; if (atom == undefined) continue;
+	  if (!colorSidechains && (atom.atom != 'CA' || atom.hetflag)) continue;
+	  else atom.color = Colors[atom.chain.charCodeAt(0) % Colors.length];
    }
 };
 

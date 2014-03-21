@@ -1,8 +1,3 @@
-
-addTab('#glmol01_srcbox', '400px', 0);
-addTab('#glmol01_viewbox', '400px', 1);
-addTab('#glmol01_infobox', '400px', 2);
-
 var glmol01 = new GLmol('glmol01', true);
 //var query = window.location.search.substring(1);
 //if (query == '') 
@@ -24,51 +19,13 @@ function getStyleRuleValue(style, selector, sheet) {
     return null;
 }
 
-function download(query) {
-   var baseURL = '';
-   if (query.substr(0, 4) == 'pdb:') {
-      query = query.substr(4).toUpperCase();
-      if (!query.match(/^[1-9][A-Za-z0-9]{3}$/)) {
-         alert("Wrong PDB ID"); return;
-      }
-      uri = "http://www.pdb.org/pdb/files/" + query + ".pdb";
-   } else if (query.substr(0, 4) == 'cid:') {
-      query = query.substr(4);
-      if (!query.match(/^[1-9]+$/)) {
-         alert("Wrong Compound ID"); return;
-      }
-      uri = "http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/" + query + 
-        "/SDF?record_type=3d";
-   }
-
-   $('#loading').show();
-   $.get(uri, function(ret) {
-      $("#glmol01_src").val(ret);
-      glmol01.loadMolecule();
-      $('#loading').hide();
-   });
-}
-
-function addTab(tabId, height, zIndex) {
-   $(tabId + ' .bottomTab').toggle(
-      function() {
-         $(tabId).
-         css('z-index', 100).
-         animate({bottom: '0px', 'height': (window.innerWidth > 800) ? height : '600px'});
-      },
-      function() {
-        $(tabId).
-        css('z-index', zIndex).
-        animate({bottom: '0px', 'height': '20px'});
-      }
-   );
-}
 
 function loadFile() {
    var file = $('#glmol01_file').get(0);
+   $('#control-state_id').change(function() {loadFile()});
    if (file) file = file.files;
    if (!file || !window.FileReader || !file[0]) {
-      bootbox.alert("No file is selected. Or File API is not supported in your browser. Please try Firefox or Chrome.");
+      bootbox.alert('Aw shucks! No file was selected or your browser does not support this feature.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
       return;
    }
    $('#loading').show();
@@ -141,10 +98,10 @@ console.log("selection " + (+new Date() - time)); time = new Date();
 	}
    console.log(color);
    if (color == undefined) {
-	   this.colorByStructure(all, 0x4682b4, 0x4682b4);
+	   this.colorByUserColors(all, ["0x9932CC","0x4682b4"]);
    } else {
 	   console.log(color);
-   	   this.colorByStructure(all, "0x" + color.replace('#',''), "0x" + color.replace('#',''));
+   	   this.colorByUserColors(all, ["0x9932CC","0x" + color.replace('#','')]);
 	   //this.colorByStructure(all, 0xff0000 , 0xff0000 );
    }
    
@@ -176,72 +133,26 @@ console.log("color " + (+new Date() - time)); time = new Date();
    //       this.drawBondsAsLine(asu, all, this.lineWidth);
    //    }
    // }
-   this.drawCartoon(asu, all, false);
-   this.drawCartoonNucleicAcid(asu, all);
+   this.drawCartoon(asu, all, false, this.thickness);
+   this.drawCartoonNucleicAcid(asu, all,null, this.thickness);
 
-   if ($(idHeader + 'line').attr('checked')) {
-      this.drawBondsAsLine(this.modelGroup, this.getSidechains(all), this.lineWidth);
-   }
+   //if ($(idHeader + 'line').attr('checked')) {
+    //  this.drawBondsAsLine(this.modelGroup, this.getSidechains(all), this.lineWidth);
+   //}
 console.log("mainchain " + (+new Date() - time)); time = new Date();
 
-   if ($(idHeader + 'showBases').attr('checked')) {
-      var hetatmMode = $(idHeader + 'base').val();
-      if (hetatmMode == 'nuclStick') {
-         this.drawNucleicAcidStick(this.modelGroup, all);
-      } else if (hetatmMode == 'nuclLine') {
-         this.drawNucleicAcidLine(this.modelGroup, all);
-      } else if (hetatmMode == 'nuclPolygon') {
-         this.drawNucleicAcidLadder(this.modelGroup, all);
-     }
-   }
 
-   var target = $(idHeader + 'symopHetatms').attr('checked') ? asu : this.modelGroup;
-   if ($(idHeader + 'showNonBonded').attr('checked')) {
-      var nonBonded = this.getNonbonded(allHet);
-      var nbMode = $(idHeader + 'nb').val();
-      if (nbMode == 'nb_sphere') {
-         this.drawAtomsAsIcosahedron(target, nonBonded, 0.3, true);
-      } else if (nbMode == 'nb_cross') {
-         this.drawAsCross(target, nonBonded, 0.3, true);
+   var target = this.modelGroup;
 
-      }
-   }
 
-   if ($(idHeader + 'showHetatms').attr('checked')) {
-      var hetatmMode = $(idHeader + 'hetatm').val();
-      if (hetatmMode == 'stick') {
-         this.drawBondsAsStick(target, hetatm, this.cylinderRadius, this.cylinderRadius, true);
-      } else if (hetatmMode == 'sphere') {
-         this.drawAtomsAsSphere(target, hetatm, this.sphereRadius);
-      } else if (hetatmMode == 'line') {
-         this.drawBondsAsLine(target, hetatm, this.curveWidth);
-      } else if (hetatmMode == 'icosahedron') {
-         this.drawAtomsAsIcosahedron(target, hetatm, this.sphereRadius);
-     } else if (hetatmMode == 'ballAndStick') {
-         this.drawBondsAsStick(target, hetatm, this.cylinderRadius / 2.0, this.cylinderRadius, true, false, 0.3);
-     } else if (hetatmMode == 'ballAndStick2') {
-         this.drawBondsAsStick(target, hetatm, this.cylinderRadius / 2.0, this.cylinderRadius, true, true, 0.3);
-     } 
 
-   }
+   this.drawBondsAsStick(target, hetatm, this.cylinderRadius / 2.0, this.cylinderRadius, true, false, 0.3);
 console.log("hetatms " + (+new Date() - time)); time = new Date();
 
-   var projectionMode = $(idHeader + 'projection').val();
-   if (projectionMode == 'perspective') this.camera = this.perspectiveCamera;
-   else if (projectionMode == 'orthoscopic') this.camera = this.orthoscopicCamera;
+   this.camera = this.perspectiveCamera;
   
    this.setBackground(parseInt("0xf5f5f5"));
 
-   if ($(idHeader + 'cell').attr('checked')) {
-      this.drawUnitcell(this.modelGroup);
-   }
-
-   if ($(idHeader + 'biomt').attr('checked')) {
-      this.drawSymmetryMates2(this.modelGroup, asu, this.protein.biomtMatrices);
-   }
-   if ($(idHeader + 'packing').attr('checked')) {
-      this.drawSymmetryMatesWithTranslation2(this.modelGroup, asu, this.protein.symMat);
-   }
    this.modelGroup.add(asu);
 };
 
