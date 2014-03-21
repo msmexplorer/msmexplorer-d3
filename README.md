@@ -9,7 +9,7 @@ Before You Begin
 ----------------
 Before running MSMExplorer-d3 locally for development, you should install ``numpy``,``scipy``,``mongodb``, ``pymongo``, ``tornado``, ``heroku-toolbelt``,``newrelic``, ``networkx``, and their respective requirements.
 
-If you simply want to use the webapp for visualization purposes, [here](http://msmexplorer-d3.herokuapp.com) is the current version running on Heroku.
+If you simply want to use the webapp for visualization purposes, [here](http://msmexplorer-d3.herokuapp.com) is the latest version of MSMExplorer-d3 running on Heroku.
 
 
 Starting up MSMExplorer-d3 on ``localhost``
