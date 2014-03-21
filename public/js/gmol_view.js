@@ -9,6 +9,21 @@ var glmol01 = new GLmol('glmol01', true);
 //download('pdb:2POR');
 //else download(query);
 
+function getStyleRuleValue(style, selector, sheet) {
+    var sheets = typeof sheet !== 'undefined' ? [sheet] : document.styleSheets;
+    for (var i = 0, l = sheets.length; i < l; i++) {
+        var sheet = sheets[i];
+        if( !sheet.cssRules ) { continue; }
+        for (var j = 0, k = sheet.cssRules.length; j < k; j++) {
+            var rule = sheet.cssRules[j];
+            if (rule.selectorText && rule.selectorText.split(',').indexOf(selector) !== -1) {
+                return rule.style[style];
+            }
+        }
+    }
+    return null;
+}
+
 function download(query) {
    var baseURL = '';
    if (query.substr(0, 4) == 'pdb:') {
@@ -85,7 +100,7 @@ function saveImage() {
       .attr('height', 2*r);
    
    $('#state-'+i).css('fill','url(#image-' + i + ')');
-   $('text.id:contains('+ i + ')').remove();
+   $('text.id').filter(function(index) { return $(this).text() === i; }).remove();
 }
 
 $('#glmol01_reload').click(function(ev) {
@@ -118,8 +133,20 @@ console.log("selection " + (+new Date() - time)); time = new Date();
    // } else if (colorMode == 'polarity') {
    //    this.colorByPolarity(all, 0xcc0000, 0xcccccc);
    // }
-   
-   this.colorByStructure(all, 0x4682b4, 0x4682b4)
+   var 	color,
+   		i = $('#control-state_id').val(),
+   	  	node_class = $('#state-'+i).attr('class');
+   if (node_class != undefined){
+   		color = getStyleRuleValue('fill', '.'+ node_class.replace(' ','.'));
+	}
+   console.log(color);
+   if (color == undefined) {
+	   this.colorByStructure(all, 0x4682b4, 0x4682b4);
+   } else {
+	   console.log(color);
+   	   this.colorByStructure(all, "0x" + color.replace('#',''), "0x" + color.replace('#',''));
+	   //this.colorByStructure(all, 0xff0000 , 0xff0000 );
+   }
    
 console.log("color " + (+new Date() - time)); time = new Date();
 
