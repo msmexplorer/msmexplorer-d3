@@ -41,6 +41,7 @@ Shoutouts
 - [d3.js](http://d3js.org/)
 - [backbone.js](http://backbonejs.org/)
 - [bootbox.js](http://bootboxjs.com/)
+- [crowbar.js](https://github.com/NYTimes/svg-crowbar)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
 - [Heroku buildpack for sklearn](https://github.com/dbrgn/heroku-buildpack-python-sklearn)
