@@ -43,7 +43,7 @@ def make_json_graph(M,request):
     t = M.copy().tocsr()
     t.data[t.data < c] = 0
     t.eliminate_zeros()
-    G = nx.from_scipy_sparse_matrix(t,create_using=nx.Graph())
+    G = nx.from_scipy_sparse_matrix(t,create_using=nx.DiGraph())
     metric = resize[e](G,M,t)
     nx.set_node_attributes(G,'size',metric)
     G.remove_nodes_from(nx.isolates(G))

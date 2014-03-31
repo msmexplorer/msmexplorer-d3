@@ -13,9 +13,9 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 var force = d3.layout.force()
-	    .charge(-400)
+	    .charge(-800)
 		.gravity(0.1)
-	    .linkDistance(40)
+	    .linkDistance(50)
 	    .size([width,height]);
 		
 var zoom = d3.behavior.zoom().x(x).y(y).scaleExtent([0.5, 5]).on("zoom", redraw);
@@ -42,7 +42,9 @@ function linkArc(d) {
       dx = x - d.source.x;
       dy = y - d.source.y;
       dr = Math.sqrt(dx * dx + dy * dy);
-  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + x + "," + y;
+	  offsetx=(dx*d.target.radius)/dr;
+	  offsety=(dy*d.target.radius)/dr;
+	  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr+ " 0 0,1 " + (x-offsetx) + "," + (y-offsety);
 }
 
 function transform(d) {
@@ -65,12 +67,12 @@ function createGraph(data){
 			maxrank = 0;
 		if (data.directed) {
 			defs.selectAll("marker")
-			    .data(["suit"])
+			    .data(["trans"])
 			  .enter().append("marker")
 			    .attr("id", function(d) { return d; })
 			    .attr("viewBox", "0 -5 10 10")
-			    .attr("refX", 15)
-			    .attr("refY", -1.5)
+			    .attr("refX", 9)
+			    .attr("refY", 0)
 			    .attr("markerWidth", 6)
 			    .attr("markerHeight", 6)
 			    .attr("orient", "auto")
@@ -94,13 +96,13 @@ function createGraph(data){
 		    .data(data.links)
 		  .enter().append("path")
 		    .attr("class", "link")
-			.attr("marker-end", function(d) { return "url(#" + "suit" + ")"; })
+			.attr("marker-end", function(d) { return "url(#" + "trans" + ")"; })
 			.attr("stroke-width", function(d) { return 3*Math.exp(d.weight/maxflux - 1) + "px"; });
 
 		circle = vis.append("g:g").selectAll("circle")
 		    .data(data.nodes)
 		  .enter().append("circle")
-		    .attr("r", function(d) {if (d.size != null) { return Math.max(1.7*r*d.size/maxrank,4.5);} return r;})
+		    .attr("r", function(d) {if (d.size != null) { d.radius = Math.max(1.7*r*d.size/maxrank,4.5);} else { d.radius = r; } return d.radius;})
 			.attr("class", function(d) { if (d.type != null) {return "circle " + d.type;} return "circle none";})
 			.attr("id",function(d) {$('#control-state_id').append('<option>'+d.id+'</option>');return "state-" + d.id;})
 		    .call(force.drag);
