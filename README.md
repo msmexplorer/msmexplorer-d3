@@ -1,7 +1,7 @@
 MSMExplorer-d3
 =================
 
-A d3.js-based webapp powered by tornado that creates beautiful interactive visualizations of MSM data.
+A d3.js and WebGL based webapp powered by tornado that creates neat interactive visualizations of MSM data.
 
 ![MSMExplorer](https://raw.github.com/cxhernandez/msmexplorer-d3/master/images/example.png)
 
