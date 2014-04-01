@@ -25,7 +25,7 @@ Now you can fire up your favorite javascript-enabled browser and go to ``localho
 
 Use for Analysis
 ----------------
-Once you've built your MSM, you can just drag and drop a Matrix Market file (``mtx``) into the webapp, and start visualizing the graph immediately. You can choose different network metrics with which to resize nodes, zoom, and pan over the graph. You can also go to the ``Transition Paths`` tab to generate the N most-likely paths from source states to sink states. You can also upload and visualize PDB files, save a molecule logo to represent a node on the graph, and finally save the graph as a PNG.
+Once you've built your MSM, you can just drag and drop a Matrix Market file (``mtx``) into the webapp, and start visualizing the graph immediately. You can choose different network metrics with which to resize nodes, zoom, and pan over the graph. You can also go to the ``Transition Paths`` tab to generate the N most-likely paths from source states to sink states. You can also upload and visualize PDB files, save a molecule logo to represent a node on the graph, and then finally save the graph as a PNG.
 
 Todo
 ---------------
