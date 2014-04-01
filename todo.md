@@ -6,7 +6,6 @@ General Features
 
 - Switch views on tab click
 - Save sessions to JSON
-- Save graph as PNG
 
 MSM Graph Features
 ---------
