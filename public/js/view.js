@@ -42,9 +42,11 @@ function linkArc(d) {
       dx = x - d.source.x;
       dy = y - d.source.y;
       dr = Math.sqrt(dx * dx + dy * dy);
-	  offsetx=(dx*d.target.radius)/dr;
-	  offsety=(dy*d.target.radius)/dr;
-	  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr+ " 0 0,1 " + (x-offsetx) + "," + (y-offsety);
+	  offsetx=(dx * d.target.radius) / dr;
+	  if (isNaN(offsetx)) {offsetx=0;}
+	  offsety=(dy * d.target.radius) / dr;
+	  if (isNaN(offsety)) {offsety=0;}
+	  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr+ " 0 0,1 " + (x - offsetx) + "," + (y - offsety);
 }
 
 function transform(d) {

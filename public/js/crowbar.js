@@ -3,10 +3,10 @@ function crowbar() {
 
   window.URL = (window.URL || window.webkitURL);
 
-  var script = document.createElement('script');
+  // var script = document.createElement('script');
   initialize();
-  script.src = "http://d3js.org/d3.v3.min.js";
-  document.head.appendChild(script);
+  // script.src = "http://d3js.org/d3.v3.min.js";
+  // document.head.appendChild(script);
 
   function initialize() {
     var documents = [window.document],
@@ -113,6 +113,7 @@ function crowbar() {
 
   function cleanup() {
     d3.selectAll(".svg-crowbar").remove();
+	d3.selectAll("canvas#savepng").remove();
   }
 
 
@@ -171,20 +172,38 @@ function crowbar() {
       filename = window.document.title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
     }
 
-    var url = window.URL.createObjectURL(new Blob(source.source, { "type" : "text\/xml" }));
+    //var url = window.URL.createObjectURL(new Blob(source.source, { "type" : "image/svg+xml;base64" }));
+	 var canvas = document.createElement("canvas");
+	 canvas.setAttribute("id","savepng");
+	 canvas.setAttribute("height","550");
+	 canvas.setAttribute("width","900");
+	 canvas.setAttribute("style","visibility:hidden;");
+	// var ctx = canvas.getContext("2d")
+	
+	
+    //var canvas = document.querySelector("canvas#savepng"),
+  	  context = canvas.getContext("2d");
+	
+	var url = "data:image/svg+xml;base64," + btoa(source.source);
+ 
+    var image = new Image;
+    image.src = url;
+    image.onload = function() {
+  	  context.drawImage(image, 0, 0);
+ 
+  	  var canvasdata = canvas.toDataURL("image/png");
+  	  var a = document.createElement("a");
+	  a.id = "save";
+  	  a.download = filename + ".png";
+  	  a.href = canvasdata;
+  	  a.click();
+    };
 
-    var a = d3.select("body")
-        .append('a')
-        .attr("class", "svg-crowbar")
-        .attr("download", filename + ".svg")
-        .attr("href", url)
-        .style("display", "none");
-
-    a.node().click();
-
-    setTimeout(function() {
-      window.URL.revokeObjectURL(url);
-    }, 10);
+     setTimeout(function() {
+       window.URL.revokeObjectURL(url);
+     }, 10);
+	
+	cleanup();
   }
 
   function getStyles(doc) {

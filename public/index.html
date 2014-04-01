@@ -26,8 +26,6 @@
 	<script src="js/validators.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/main.js"></script>
-	
-	<script src="js/crowbar.js"></script>
 		
 	<!-- Google Analytics -->
 	<script>
@@ -93,7 +91,7 @@
 	    	<pre id="glmol01"></pre>
 		<!-- </div> -->
 			<div>
-			<input id="glmol01_file" type="file" size=1><button onClick="loadFile()">Load PDB</button><button onClick="saveImage()">Add Logo</button>
+			<label id="submit2" style="float:left;"> <a>Load PDB</a><input id="glmol01_file" type="file" onchange="loadFile()" size=1 ></label><label id="submit2" style="float:right;"> <a onClick="saveImage()">Add Logo</a></label>
 			</div>
 	
 	  </div>
@@ -124,5 +122,6 @@
 <script src="js/glmol/Three49custom.js"></script>
 <script src="js/glmol/GLmol.js"></script>
 <script src="js/gmol_view.js"></script>
+<script src="js/crowbar.js"></script>
 </body>
 </html>
