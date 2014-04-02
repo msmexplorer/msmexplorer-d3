@@ -35,6 +35,8 @@ In the future, I hope to provide additional functionalities:
 + Upload a metric to stratify the pathways for more meaningful analysis.
 + Save results to a JSON file.
 
+Please let me know if you'd like to see anything else!
+
 Shoutouts
 ----------------
 
