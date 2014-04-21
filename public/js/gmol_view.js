@@ -28,6 +28,10 @@
 
 var glmol01 = new GLmol('glmol01', true);
 
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
+}
+
 function getStyleRuleValue(style, selector, sheet) {
     var sheets = typeof sheet !== 'undefined' ? [sheet] : document.styleSheets;
     for (var i = 0, l = sheets.length; i < l; i++) {
@@ -118,7 +122,8 @@ console.log("selection " + (+new Date() - time)); time = new Date();
    		i = $('#control-state_id').val(),
    	  	node_class = $('#state-'+i).attr('class');
    if (node_class != undefined){
-   		color = getStyleRuleValue('fill', '.'+ node_class.replace(' ','.'));
+   		c = getStyleRuleValue('fill', '.'+ node_class.replace(' ','.')).replace("rgb(","").replace(")","").split(", ");
+		color = rgbToHex(c[0],c[1],c[2])
 	}
    console.log(color);
    if (color == undefined) {
