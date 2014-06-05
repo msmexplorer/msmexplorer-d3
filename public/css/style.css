@@ -167,7 +167,7 @@ div.span4{
 	width:auto;
 	float: center;
 	min-width:320px;
-	min-width:450px;
+	max-width:450px;
 }
 
 div.span8{
