@@ -167,6 +167,11 @@ div.span4{
 	width:auto;
 	float: center;
 	min-width:320px;
+	min-width:450px;
+}
+
+div.span8{
+	float: right;
 }
 
 .bbf-checkboxes label {
