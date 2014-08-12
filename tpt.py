@@ -429,7 +429,7 @@ def get_eigenvectors(t_matrix, n_eigs, epsilon=.001, dense_cutoff=50, right=Fals
         try:
             values, vectors = scipy.sparse.linalg.eigs(t_matrix.tocsr(), n_eigs, which="LR", maxiter=100000,tol=tol)
         except:
-            alues, vectors = scipy.sparse.linalg.eigs(t_matrix)
+            values, vectors = scipy.sparse.linalg.eigs(t_matrix)
     else:
         values, vectors = scipy.linalg.eig(t_matrix)
 
