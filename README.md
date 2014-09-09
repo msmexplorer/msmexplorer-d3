@@ -14,7 +14,7 @@ If you simply want to use the webapp for visualization purposes, [here](http://m
 
 Starting up MSMExplorer-d3 on ``localhost``
 ----------------
-Just enter the following into your terminal (while in the ``msmexplorer-d3`` trajectory):
+Just enter the following into your terminal (while in the ``msmexplorer-d3`` directory):
 
 ````
 $> mongod &

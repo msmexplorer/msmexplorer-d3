@@ -130,7 +130,7 @@ def Dijkstra(sources, sinks, net_flux):
     pi[sources] = -1
     U = []
 
-    Q = sorted(range(N), key=lambda v: b[v])
+    Q = sorted(list(range(N)), key=lambda v: b[v])
     for v in sinks:
         Q.remove(v)
 
