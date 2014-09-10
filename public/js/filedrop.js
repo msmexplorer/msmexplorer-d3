@@ -94,7 +94,7 @@ function generatePaths() {
 	if (upload_results != null) {
 		post2tornado(1); // 1 means TP
 	} else {
-    bootbox.alert('Aw shucks! You need to upload a Matrix Market before you can do this.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>');
+    bootbox.alert('Aw shucks! You need to upload a Matrix Market before you can do this.<br><br><img style="height: 150px; position: center" src="./images/sad-panda.jpg"/>');
 	}
 }
 
@@ -102,8 +102,8 @@ function generatePaths() {
 function post2tornado(mode) {
 	
 	//Define Error Handling
-	var wrong_type_msg = 'Aw shucks! MSMExplorer-d3 requires a Matrix Market file as input.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>',
-		we_did_bad ='Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><img style="height: 150px; position: center" src="http://www.decalbin.com/catalog/images/sad_panda.png"/>',
+	var wrong_type_msg = 'Aw shucks! MSMExplorer-d3 requires a Matrix Market file as input.<br><br><img style="height: 150px; position: center" src="./images/sad-panda.jpg"/>',
+		we_did_bad ='Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><br><img style="height: 150px; position: center" src="./images/sad-panda.jpg"/>',
 		response,
 		request;
 		
