@@ -29,9 +29,9 @@
 // Declare global d3.js variables
 var circle, path, text;
 
-var	width = 900, // Default viewer width
+var width = 900, // Default viewer width
     height = 550, // Default viewer height
-	r = 12; // Default node size
+    r = 12; // Default node size
 	
 // Linear scaling of x-axis while zooming
 var x = d3.scale.linear()
@@ -51,12 +51,12 @@ var force = d3.layout.force()
 	    		.size([width,height]);
 
 // Add Zoom behavior
-var zoom = d3.behavior.zoom().x(x).y(y).scaleExtent([0.5, 5]).on("zoom", redraw);
+var zoom = d3.behavior.zoom().x(x).y(y).scaleExtent([.5, 5]).on("zoom", redraw);
 		
 // Create SVG
 var svg = d3.select("#viewer").append("svg:svg")
 	  	.attr("viewBox", "0 0 " + width + " " + height)
-      	.attr("preserveAspectRatio", "XminYmin meet")
+      	.attr("preserveAspectRatio", "xminYmin meet")
 		.attr("pointer-events", "all")
 		.call(zoom);
 

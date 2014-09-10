@@ -163,7 +163,7 @@ function gooseneck() {
         top: rect.top,
         left: rect.left,
         width: rect.width,
-        height: rect.height,
+        height: .8*rect.height,
         class: svg.getAttribute("class"),
         id: svg.getAttribute("id"),
         childElementCount: svg.childElementCount,
@@ -183,11 +183,10 @@ function gooseneck() {
     } else if (window.document.title) {
       filename = window.document.title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
     }
-
     var canvas = document.createElement("canvas");
     canvas.setAttribute("id","savepng");
-    canvas.setAttribute("height","300");
-    canvas.setAttribute("width","400");
+    canvas.height = source.height;
+    canvas.width = source.width;
     canvas.setAttribute("style","visibility:hidden;");
 
     context = canvas.getContext("2d");
@@ -197,8 +196,7 @@ function gooseneck() {
     var image = new Image;
     image.src = url;
     image.onload = function() {
-        context.drawImage(image, 0, 0);
-
+        context.drawImage(image, 0, 0, source.width, source.height);
  	var canvasdata = canvas.toDataURL("image/png");
  	var a = document.createElement("a");
         a.id = "save";
