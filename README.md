@@ -46,7 +46,7 @@ Shoutouts
 - [crowbar.js](https://github.com/NYTimes/svg-crowbar)
 - [tornado](http://www.tornadoweb.org/en/stable/)
 - [mongodb](http://www.mongodb.org/)
-- [Heroku buildpack for sklearn](https://github.com/dbrgn/heroku-buildpack-python-sklearn)
+- [Heroku buildpack for conda](https://github.com/kennethreitz/conda-buildpack)
 - [msmbuilder](http://msmbuilder.org/)
 - [GLmol](https://github.com/biochem-fan/GLmol)
 - [@rmcgibbo](https://github.com/rmcgibbo)
