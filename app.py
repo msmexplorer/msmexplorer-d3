@@ -49,7 +49,6 @@ import tornado.ioloop
 from tornado.web import (RequestHandler, StaticFileHandler, Application,asynchronous)
 from tornado.websocket import WebSocketHandler
 from tornado.httpclient import AsyncHTTPClient
-from IPython import embed
 
 # Set up NEWRELIC
 newrelic.agent.initialize('newrelic.ini')
