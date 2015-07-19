@@ -1,19 +1,19 @@
 // Author: Carlos Xavier Hernández <cxh@stanford.edu>
-// Contributors: 
+// Contributors:
 // Copyright (c) 2014, Stanford University
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
 // met:
-// 
+//
 //   Redistributions of source code must retain the above copyright notice,
 //   this list of conditions and the following disclaimer.
-// 
+//
 //   Redistributions in binary form must reproduce the above copyright
 //   notice, this list of conditions and the following disclaimer in the
 //   documentation and/or other materials provided with the distribution.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 // IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 // TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -61,7 +61,7 @@ function handleInput() {
 		pushToHTML(f);
     } else {
         alert('Please upload a file before continuing');
-    } 
+    }
 	$('#upload').val('');
 }
 
@@ -100,13 +100,13 @@ function generatePaths() {
 
 // Creates POST to Tornado Server
 function post2tornado(mode) {
-	
+
 	//Define Error Handling
 	var wrong_type_msg = 'Aw shucks! MSMExplorer-d3 requires a Matrix Market file as input.<br><br><img style="height: 150px; position: center" src="./images/sad-panda.jpg"/>',
 		we_did_bad ='Aw shucks! MSMExplorer-d3 did something wrong. We apologize.<br><br><img style="height: 150px; position: center" src="./images/sad-panda.jpg"/>',
 		response,
 		request;
-		
+
 	// Try REQUEST
 	try{
 		if (mode) {
@@ -117,17 +117,17 @@ function post2tornado(mode) {
 
 		}
 		load_screen_on()
-		
+
 		// Retrieve RESPONSE
 		response = $.ajax({
 			type: "POST",
 			url: "/process",
 			async: true,
 			data: request,
-			success: function (data) {load_screen_off();updateGraph(JSON.parse(data));},
+			success: function (data) {load_screen_off();updateGraph(data);},
 			error: function () {$('.spinner').remove();bootbox.alert(wrong_type_msg);},
 		});
-		
+
   } catch (err) {
 	  $('.spinner').remove();
       bootbox.alert(we_did_bad);

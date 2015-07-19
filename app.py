@@ -4,18 +4,18 @@
 # Contributors: Robert McGibbon <rmcgibbo@gmail.com>
 # Copyright (c) 2014, Stanford University
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
-# 
+#
 #   Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
-# 
+#
 #   Redistributions in binary form must reproduce the above copyright
 #   notice, this list of conditions and the following disclaimer in the
 #   documentation and/or other materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 # TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -32,9 +32,12 @@
 # IMPORTS
 #-----------------------------------------------------------------------------
 
-import os, optparse, uuid, urlparse, time, tornado, tpt
+import os, optparse, uuid, urlparse, time, tornado
 import scipy.io as sio
 import scipy.sparse as sparse
+from msmbuilder import tpt
+from msmbuilder.msm import MarkovStateModel
+from msmbuilder.msm._markovstatemodel import _transmat_mle_prinz
 import networkx as nx
 from networkx.readwrite import json_graph
 from StringIO import StringIO
@@ -46,18 +49,19 @@ import tornado.ioloop
 from tornado.web import (RequestHandler, StaticFileHandler, Application,asynchronous)
 from tornado.websocket import WebSocketHandler
 from tornado.httpclient import AsyncHTTPClient
+from IPython import embed
 
 # Set up NEWRELIC
-newrelic.agent.initialize('newrelic.ini') 
+newrelic.agent.initialize('newrelic.ini')
 
 #Set up MONGO CLIENT
 __DB__ = 'MONGOHQ_URL'
 
 #List of Available Network Metrics
-resize = {  
+resize = {
             'pagerank':lambda x,y,z: nx.pagerank_scipy(x),
-            '1st eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]),tpt.get_eigenvectors(y, 1)[1][:,0])),
-            '2nd eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]),tpt.get_eigenvectors(y, 2)[1][:,1])),
+            '1st eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]), y.populations_)),
+            '2nd eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]), y.left_eigenvectors_[:,1])),
             'closeness centrality': lambda x,y,z: nx.closeness_centrality(x),
             'flow betweenness': lambda x,y,z: nx.approximate_current_flow_betweenness_centrality(x)
           }
@@ -79,40 +83,41 @@ def connect_to_mongo():
         print 'it should give you the right string'
         c = Connection()
     #THIS IS APP SPECIFIC. PLEASE CHANGE APPLICATION ID.
-    return c.app22870053 
-    
+    return c.app22870053
+
 #MAKES MSM GRAPH AND RETURNS JSON
-def make_json_graph(M,request):
-    c,e=float(request.get_argument('cutoff')),str(request.get_argument('resize'))
-    t = M.copy().tocsr()
-    t.data[t.data < c] = 0
+def make_json_graph(msm,request):
+    c, e = float(request.get_argument('cutoff')), str(request.get_argument('resize'))
+    t = sparse.csr_matrix(msm.transmat_.copy())
+    t.data[t.data < c] = 0.0
     t.eliminate_zeros()
-    G = nx.from_scipy_sparse_matrix(t,create_using=nx.DiGraph())
-    metric = resize[e](G,M,t)
-    nx.set_node_attributes(G,'size',metric)
+    G = nx.from_scipy_sparse_matrix(t, create_using=nx.DiGraph())
+    metric = resize[e](G, msm, t)
+    nx.set_node_attributes(G, 'size', metric)
     G.remove_nodes_from(nx.isolates(G))
-    return str(json_graph.dumps(G))
-    
+    return json_graph.node_link_data(G)
+
 #MAKES TRANSITIONS PATHWAYS AND RETURNS JSON
-def make_json_paths(M,request):
-    sources,sinks,n = map(int,request.get_argument('sources').replace(" ","").split(",")),map(int,request.get_argument('sinks').replace(" ","").split(",")),int(request.get_argument('num_paths'))
-    paths = tpt.find_top_paths(sources,sinks,tprob=M,num_paths=n)
+def make_json_paths(msm, request):
+    sources, sinks, n = map(int,request.get_argument('sources').replace(" ", "").split(",")), map(int, request.get_argument('sinks').replace(" ", "").split(",")), int(request.get_argument('num_paths'))
+    net_flux = tpt.net_fluxes(sources, sinks, msm)
+    paths = tpt.paths(sources, sinks, net_flux, num_paths=n)
     G = nx.DiGraph()
     for j,i in enumerate(paths[0][::-1]):
-        G.add_node(i[0],type="source")
-        for k in range(1,len(i)):
-            G.add_node(i[k],type="none")
-            G.add_edge(i[k-1],i[k],weight=paths[2][::-1][j])
-        G.add_node(i[-1],type="sink")
-    return str(json_graph.dumps(G))
-    
+        G.add_node(i[0], type="source")
+        for k in range(1, len(i)):
+            G.add_node(i[k], type="none")
+            G.add_edge(i[k-1], i[k], weight=paths[1][::-1][j])
+        G.add_node(i[-1], type="sink")
+    return json_graph.node_link_data(G)
+
 DATABASE = connect_to_mongo()
 print DATABASE.collection_names()
 
 # GET USER OPTIONS
 def parse_cmdln():
     parser=optparse.OptionParser()
-    parser.add_option('-p','--port',dest='port',type='int', default=5000) #OPTION TO CHANGE HOST SERVER PORT
+    parser.add_option('-p', '--port', dest='port', type='int', default=5000) #OPTION TO CHANGE HOST SERVER PORT
     (options, args) = parser.parse_args()
     return (options, args)
 
@@ -121,7 +126,7 @@ class Session(object):
     """REALLLY CRAPPY SESSIONS FOR TORNADO VIA MONGODB
     """
     collection = DATABASE.sessions
-    
+
     def __init__(self, request):
         data = {
             'ip_address': request.remote_ip,
@@ -137,15 +142,15 @@ class Session(object):
 
     def get(self, attr, default=None):
         return self.data.get(attr, default)
-    
+
     def put(self, attr, value):
         self.collection.remove(self.data)
         self.data[attr] = value
         self.collection.insert(self.data)
-    
+
     def __repr__(self):
         return str(self.data)
- 
+
 #PREVENTS FREQUENT REQUESTS
 class RunHandler(RequestHandler):
     # how often should we allow execution
@@ -153,13 +158,13 @@ class RunHandler(RequestHandler):
 
     def log(self, msg):
         print msg
-        
+
     def get(self):
         if self.validate_request_frequency():
             request_id = str(uuid.uuid4())
             HTTP_CLIENT.fetch('localhost', method='POST', callback=self.log)
             self.write()
-            
+
     def validate_request_frequency(self):
         """Check that the user isn't requesting to run too often"""
         session = Session(self.request)
@@ -171,24 +176,27 @@ class RunHandler(RequestHandler):
         session.put('last_run', time.time())
 
         return True
-        
+
 #COUNTS REQUESTS
 class IndexHandler(StaticFileHandler):
     def get(self):
         session = Session(self.request)
         session.put('indexcounts', session.get('indexcounts', 0) + 1)
         return super(IndexHandler, self).get('index.html')
- 
+
 #HANDLES UPLOADED CONTENT
 class UploadHandler(tornado.web.RequestHandler):
     def post(self):
         io = StringIO(self.get_argument('matrix'))
         w = sio.mmread(io)
+        msm = MarkovStateModel()
+        msm.transmat_, msm.populations_ = _transmat_mle_prinz(w)
+        msm.n_states_ = msm.populations_.shape[0]
         if bool(int(self.get_argument('mode'))):
-            self.write(make_json_paths(w,self)) #TP
+            self.write(make_json_paths(msm, self)) #TP
         else:
-            self.write(make_json_graph(w,self)) #MSM
- 
+            self.write(make_json_graph(msm, self)) #MSM
+
 #-----------------------------------------------------------------------------
 # STATIC CONTENT DECLARATIONS
 #-----------------------------------------------------------------------------
@@ -201,7 +209,7 @@ application = tornado.web.Application([
         (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
         (r'/help/(.*)', StaticFileHandler, {'path': 'public/help'}),
         ], debug=True)
- 
+
 #-----------------------------------------------------------------------------
 # MAIN
 #-----------------------------------------------------------------------------
