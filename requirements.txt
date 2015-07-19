@@ -1,11 +1,2 @@
-newrelic==2.16.0.12
-gunicorn==18.0
-simplejson==3.3.3
-numpy==1.8.0
-numexpr==2.2.2
-cython==0.18
-tornado==3.2
-wsgiref==0.1.2
-pymongo==2.6.3
-networkx==1.8.1
+newrelic
 
