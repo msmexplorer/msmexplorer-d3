@@ -28,11 +28,15 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # IMPORTS
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-import os, optparse, uuid, urlparse, time, tornado
+import os
+import optparse
+import uuid
+import time
+import tornado
 import scipy.io as sio
 import scipy.sparse as sparse
 from msmbuilder import tpt
@@ -41,38 +45,41 @@ from msmbuilder.msm._markovstatemodel import _transmat_mle_prinz
 import networkx as nx
 from networkx.readwrite import json_graph
 from StringIO import StringIO
-from threading import Lock
-from urllib import urlencode
 from pymongo import Connection
 import newrelic.agent
 import tornado.ioloop
-from tornado.web import (RequestHandler, StaticFileHandler, Application,asynchronous)
-from tornado.websocket import WebSocketHandler
+from tornado.web import (RequestHandler, StaticFileHandler)
 from tornado.httpclient import AsyncHTTPClient
 
 # Set up NEWRELIC
 newrelic.agent.initialize('newrelic.ini')
 
-#Set up MONGO CLIENT
+# Set up MONGO CLIENT
 __DB__ = 'MONGOHQ_URL'
 
-#List of Available Network Metrics
+# Dict of Available Network Metrics
 resize = {
-            'pagerank':lambda x,y,z: nx.pagerank_scipy(x),
-            '1st eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]), y.populations_)),
-            '2nd eigenvector':lambda x,y,z: dict(zip(range(z.shape[0]), y.left_eigenvectors_[:,1])),
-            'closeness centrality': lambda x,y,z: nx.closeness_centrality(x),
-            'flow betweenness': lambda x,y,z: nx.approximate_current_flow_betweenness_centrality(x)
-          }
+    'pagerank': lambda x, y, z:
+    nx.pagerank_scipy(x),
+    '1st eigenvector': lambda x, y, z:
+    dict(zip(range(z.shape[0]), y.populations_)),
+    '2nd eigenvector': lambda x, y, z:
+    dict(zip(range(z.shape[0]), y.left_eigenvectors_[:, 1])),
+    'closeness centrality': lambda x, y, z:
+    nx.closeness_centrality(x),
+    'flow betweenness': lambda x, y, z:
+    nx.approximate_current_flow_betweenness_centrality(x)
+    }
 
-#Declare async
+# Declare async
 HTTP_CLIENT = AsyncHTTPClient()
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # TASKS
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-#Connect to MONGODB
+
+# Connect to MONGODB
 def connect_to_mongo():
     if __DB__ in os.environ:
         c = Connection(os.environ[__DB__])
@@ -81,12 +88,14 @@ def connect_to_mongo():
         print 'env variable. run "heroku config" at the command line and'
         print 'it should give you the right string'
         c = Connection()
-    #THIS IS APP SPECIFIC. PLEASE CHANGE APPLICATION ID.
+    # THIS IS APP SPECIFIC. PLEASE CHANGE APPLICATION ID.
     return c.app22870053
 
-#MAKES MSM GRAPH AND RETURNS JSON
-def make_json_graph(msm,request):
-    c, e = float(request.get_argument('cutoff')), str(request.get_argument('resize'))
+
+# MAKES MSM GRAPH AND RETURNS JSON
+def make_json_graph(msm, request):
+    c = float(request.get_argument('cutoff'))
+    e = str(request.get_argument('resize'))
     t = sparse.csr_matrix(msm.transmat_.copy())
     t.data[t.data < c] = 0.0
     t.eliminate_zeros()
@@ -96,13 +105,17 @@ def make_json_graph(msm,request):
     G.remove_nodes_from(nx.isolates(G))
     return json_graph.node_link_data(G)
 
-#MAKES TRANSITIONS PATHWAYS AND RETURNS JSON
+
+# MAKES TRANSITIONS PATHWAYS AND RETURNS JSON
 def make_json_paths(msm, request):
-    sources, sinks, n = map(int,request.get_argument('sources').replace(" ", "").split(",")), map(int, request.get_argument('sinks').replace(" ", "").split(",")), int(request.get_argument('num_paths'))
+    sources = map(int,
+                  request.get_argument('sources').replace(" ", "").split(","))
+    sinks = map(int, request.get_argument('sinks').replace(" ", "").split(","))
+    n = int(request.get_argument('num_paths'))
     net_flux = tpt.net_fluxes(sources, sinks, msm)
     paths = tpt.paths(sources, sinks, net_flux, num_paths=n)
     G = nx.DiGraph()
-    for j,i in enumerate(paths[0][::-1]):
+    for j, i in enumerate(paths[0][::-1]):
         G.add_node(i[0], type="source")
         for k in range(1, len(i)):
             G.add_node(i[k], type="none")
@@ -113,14 +126,16 @@ def make_json_paths(msm, request):
 DATABASE = connect_to_mongo()
 print DATABASE.collection_names()
 
+
 # GET USER OPTIONS
 def parse_cmdln():
-    parser=optparse.OptionParser()
-    parser.add_option('-p', '--port', dest='port', type='int', default=5000) #OPTION TO CHANGE HOST SERVER PORT
+    parser = optparse.OptionParser()
+    parser.add_option('-p', '--port', dest='port', type='int', default=5000)
     (options, args) = parser.parse_args()
     return (options, args)
 
-#CREATES HOST SESSION AND LOGS USER IP INFO
+
+# CREATES HOST SESSION AND LOGS USER IP INFO
 class Session(object):
     """REALLLY CRAPPY SESSIONS FOR TORNADO VIA MONGODB
     """
@@ -150,7 +165,8 @@ class Session(object):
     def __repr__(self):
         return str(self.data)
 
-#PREVENTS FREQUENT REQUESTS
+
+# PREVENTS FREQUENT REQUESTS
 class RunHandler(RequestHandler):
     # how often should we allow execution
     max_request_frequency = 10  # seconds
@@ -162,7 +178,7 @@ class RunHandler(RequestHandler):
         if self.validate_request_frequency():
             request_id = str(uuid.uuid4())
             HTTP_CLIENT.fetch('localhost', method='POST', callback=self.log)
-            self.write()
+            self.write(request_id)
 
     def validate_request_frequency(self):
         """Check that the user isn't requesting to run too often"""
@@ -176,14 +192,16 @@ class RunHandler(RequestHandler):
 
         return True
 
-#COUNTS REQUESTS
+
+# COUNTS REQUESTS
 class IndexHandler(StaticFileHandler):
     def get(self):
         session = Session(self.request)
         session.put('indexcounts', session.get('indexcounts', 0) + 1)
         return super(IndexHandler, self).get('index.html')
 
-#HANDLES UPLOADED CONTENT
+
+# HANDLES UPLOADED CONTENT
 class UploadHandler(tornado.web.RequestHandler):
     def post(self):
         io = StringIO(self.get_argument('matrix'))
@@ -192,28 +210,28 @@ class UploadHandler(tornado.web.RequestHandler):
         msm.transmat_, msm.populations_ = _transmat_mle_prinz(w)
         msm.n_states_ = msm.populations_.shape[0]
         if bool(int(self.get_argument('mode'))):
-            self.write(make_json_paths(msm, self)) #TP
+            self.write(make_json_paths(msm, self))  # TP
         else:
-            self.write(make_json_graph(msm, self)) #MSM
+            self.write(make_json_graph(msm, self))  # MSM
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # STATIC CONTENT DECLARATIONS
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 application = tornado.web.Application([
-        (r'/run', RunHandler),
-        (r"/process", UploadHandler),
-        (r'/', IndexHandler, {'path': 'public'}),
-        (r'/js/(.*)', StaticFileHandler, {'path': 'public/js'}),
-        (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),
-        (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
-        (r'/help/(.*)', StaticFileHandler, {'path': 'public/help'}),
-        ], debug=True)
+    (r'/run', RunHandler),
+    (r"/process", UploadHandler),
+    (r'/', IndexHandler, {'path': 'public'}),
+    (r'/js/(.*)', StaticFileHandler, {'path': 'public/js'}),
+    (r'/css/(.*)', StaticFileHandler, {'path': 'public/css'}),
+    (r'/images/(.*)', StaticFileHandler, {'path': 'public/images'}),
+    (r'/help/(.*)', StaticFileHandler, {'path': 'public/help'}),
+    ], debug=True)
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # MAIN
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 if __name__ == "__main__":
-    (options,args)=parse_cmdln()
+    (options, args) = parse_cmdln()
     port = int(os.environ.get('PORT', options.port))
     application.listen(port)
     print "MSMExplorer is starting on port %s" % options.port
