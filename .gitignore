@@ -1,4 +1,3 @@
-*.gitignore
 *.pyc
 *_graph-checkpoint.ipynb
 *.swp
