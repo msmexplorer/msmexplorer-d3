@@ -44,19 +44,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 	<!-- Backbone -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
     <script src="js/libs/mousetrap.min.js"></script>
     <script src="js/lib.min.js"></script>
 	  <script src="js/validators.js"></script>
 	  <script src="js/models.js"></script>
 	  <script src="js/main.js"></script> <!-- Custom -->
+    <script src="./js/SaveSVGAsPNG.js"></script>
 
 	<!-- CSS -->
 	<link href="css/style.css" rel="stylesheet">
 
 	<!-- D3.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="./js/d3.v2.min.js" charset="utf-8"></script>
 
 	<!-- Google Analytics -->
 	<script>
@@ -93,7 +94,7 @@
             </ul>
 			<li>
 				<!-- Activate Modified Crowbar.js -->
-				<a href="#" onclick="gooseneck()">Save Graph</a>
+				<a href="#" onclick="saveSvgAsPng(document.getElementsByTagName('svg')[0], 'msmexplorer-d3.png', {scale: 3})">Save Graph</a>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
