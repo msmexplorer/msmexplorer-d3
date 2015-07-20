@@ -32,15 +32,17 @@ Once you've built your MSM, you can just drag and drop a Matrix Market file (``m
 Todo
 ---------------
 
-In the future, I hope to provide additional functionalities:
+In the future, we hope to provide additional functionalities:
 
++ Alternative molecular logo representations
 + Upload a metric to stratify the pathways for more meaningful analysis.
 + Save results to a JSON file.
 
-Please let me know if you'd like to see anything else!
+Please let us know if you'd like to see anything else!
 
 Shoutouts
 ----------------
+Inspired by [brycecr/msmexplorer](https://github.com/brycecr/msmexplorer), powered by:
 
 - [d3.js](http://d3js.org/)
 - [backbone.js](http://backbonejs.org/)
@@ -51,5 +53,3 @@ Shoutouts
 - [kennethreitz/conda-buildpack](https://github.com/kennethreitz/conda-buildpack)
 - [msmbuilder](http://msmbuilder.org/)
 - [GLmol](https://github.com/biochem-fan/GLmol)
-- [@rmcgibbo](https://github.com/rmcgibbo)
-- [Pande Group](http://pande.stanford.edu/)
